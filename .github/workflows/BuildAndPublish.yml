@@ -32,6 +32,7 @@ jobs:
           repository: Modern-Mods/Malisis-Core-Revived
           ref: "Neo/26.1.2"
           path: Malisis-Core-Revived
+          token: ${{ secrets.MALISIS_CORE_TOKEN || github.token }}
 
       - name: Set up JDK 25
         uses: actions/setup-java@v6
