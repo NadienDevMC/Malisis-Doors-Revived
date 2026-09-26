@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shapeless",
   "category": "redstone",
   "ingredients": [
-    {
-      "item": "malisisdoors:big_door_iron_3x3"
-    },
-    {
-      "item": "minecraft:water_bucket"
-    }
+    "malisisdoors:big_door_iron_3x3",
+    "minecraft:water_bucket"
   ],
   "result": {
     "id": "malisisdoors:big_door_rusty_3x3",

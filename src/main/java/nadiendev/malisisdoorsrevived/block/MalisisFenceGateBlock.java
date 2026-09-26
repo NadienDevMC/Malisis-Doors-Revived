@@ -1,14 +1,15 @@
 package nadiendev.malisisdoorsrevived.block;
 
-import net.minecraft.world.level.storage.loot.BuiltInLootTables;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.level.storage.loot.LootParams;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
-import net.malisis.core.util.BlockEntityUtils;
+import nadiendev.malisiscorerevived.util.BlockEntityUtils;
 import nadiendev.malisisdoorsrevived.blockentity.DoorBlockEntity;
 import nadiendev.malisisdoorsrevived.blockentity.FenceGateBlockEntity;
 import nadiendev.malisisdoorsrevived.door.DoorAppearance;
@@ -79,11 +80,6 @@ public class MalisisFenceGateBlock extends FenceGateBlock implements EntityBlock
 		return item != null ? item.get() : super.asItem();
 	}
 
-	@Override
-	public String getDescriptionId()
-	{
-		return appearance instanceof DoorAppearance.Copy copy ? copy.block().get().getDescriptionId() : super.getDescriptionId();
-	}
 
 	@Override
 	protected float getDestroyProgress(BlockState state, Player player, BlockGetter level, BlockPos pos)
@@ -104,7 +100,7 @@ public class MalisisFenceGateBlock extends FenceGateBlock implements EntityBlock
 	@Override
 	protected List<ItemStack> getDrops(BlockState state, LootParams.Builder params)
 	{
-		if (appearance instanceof DoorAppearance.Copy copy && getLootTable() == BuiltInLootTables.EMPTY)
+		if (appearance instanceof DoorAppearance.Copy copy && getLootTable().isEmpty())
 			return copy.copyState(state).getDrops(params);
 		return super.getDrops(state, params);
 	}
@@ -135,7 +131,7 @@ public class MalisisFenceGateBlock extends FenceGateBlock implements EntityBlock
 	@Override
 	protected RenderShape getRenderShape(BlockState state)
 	{
-		return RenderShape.ENTITYBLOCK_ANIMATED;
+		return RenderShape.INVISIBLE;
 	}
 
 	@Override
@@ -167,7 +163,7 @@ public class MalisisFenceGateBlock extends FenceGateBlock implements EntityBlock
 	}
 
 	@Override
-	protected void onExplosionHit(BlockState state, Level level, BlockPos pos, Explosion explosion, BiConsumer<ItemStack, BlockPos> dropConsumer)
+	protected void onExplosionHit(BlockState state, ServerLevel level, BlockPos pos, Explosion explosion, BiConsumer<ItemStack, BlockPos> dropConsumer)
 	{
 		if (explosion.getBlockInteraction() == Explosion.BlockInteraction.TRIGGER_BLOCK)
 		{
@@ -181,7 +177,7 @@ public class MalisisFenceGateBlock extends FenceGateBlock implements EntityBlock
 	}
 
 	@Override
-	protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston)
+	protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, @Nullable Orientation orientation, boolean movedByPiston)
 	{
 		if (level.isClientSide())
 			return;
@@ -206,7 +202,7 @@ public class MalisisFenceGateBlock extends FenceGateBlock implements EntityBlock
 	}
 
 	@Override
-	public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player)
+	public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData, Player player)
 	{
 		return new ItemStack(asItem());
 	}

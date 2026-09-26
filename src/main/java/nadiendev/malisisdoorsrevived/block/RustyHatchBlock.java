@@ -2,13 +2,13 @@ package nadiendev.malisisdoorsrevived.block;
 
 import java.util.List;
 
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import nadiendev.malisisdoorsrevived.blockentity.MultiBlockDoorBlockEntity;
 import nadiendev.malisisdoorsrevived.door.DoorAppearance;
 import nadiendev.malisisdoorsrevived.door.DoorDescriptor;
 import nadiendev.malisisdoorsrevived.door.DoorRegistry;
-import net.malisis.core.util.DirectionUtils;
+import nadiendev.malisiscorerevived.util.DirectionUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;

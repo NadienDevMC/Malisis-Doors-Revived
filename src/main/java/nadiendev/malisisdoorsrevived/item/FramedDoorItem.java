@@ -1,5 +1,7 @@
 package nadiendev.malisisdoorsrevived.item;
 
+import java.util.function.Consumer;
+import net.minecraft.world.item.component.TooltipDisplay;
 import java.util.List;
 
 import nadiendev.malisisdoorsrevived.registry.ModDataComponents;
@@ -24,10 +26,10 @@ public class FramedDoorItem extends BlockItem
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag)
+	public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag)
 	{
 		BlockState frame = stack.get(ModDataComponents.FRAME_STATE.get());
 		if (frame != null)
-			tooltip.add(Component.translatable("item.malisisdoors.big_door.frame", frame.getBlock().getName()).withStyle(ChatFormatting.GRAY));
+			tooltip.accept(Component.translatable("item.malisisdoors.big_door.frame", frame.getBlock().getName()).withStyle(ChatFormatting.GRAY));
 	}
 }

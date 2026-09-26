@@ -34,7 +34,6 @@
       ]
     }
   ],
-  "render_type": "minecraft:cutout",
   "textures": {
     "particle": "malisisdoors:block/sliding_trapdoor",
     "texture": "malisisdoors:block/sliding_trapdoor"

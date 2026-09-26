@@ -2,8 +2,8 @@ package nadiendev.malisisdoorsrevived.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.malisis.core.client.model.ObjModelCache;
-import net.malisis.core.client.render.RenderUtils;
+import nadiendev.malisiscorerevived.client.model.ObjModelCache;
+import nadiendev.malisiscorerevived.client.render.RenderUtils;
 import nadiendev.malisisdoorsrevived.MalisisDoors;
 import nadiendev.malisisdoorsrevived.client.renderer.DoorRenderer;
 import nadiendev.malisisdoorsrevived.door.DoorMaterials;
@@ -11,35 +11,12 @@ import nadiendev.malisisdoorsrevived.movement.IDoorMovement;
 import nadiendev.malisisdoorsrevived.registry.ModDataComponents;
 import nadiendev.malisisdoorsrevived.registry.ModItems;
 import nadiendev.malisisdoorsrevived.registry.ModBlocks;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
-/**
- * Renders the items that need a 3D model built at runtime : custom doors, vertical hatch, hi-tech door and rusty handle.
- *
- * @author Ordinastie
- */
-public class MalisisItemRenderer extends BlockEntityWithoutLevelRenderer
+public class MalisisItemRenderer
 {
-	private static MalisisItemRenderer instance;
-
-	public MalisisItemRenderer()
-	{
-		super(Minecraft.getInstance().getBlockEntityRenderDispatcher(), Minecraft.getInstance().getEntityModels());
-	}
-
-	public static MalisisItemRenderer get()
-	{
-		if (instance == null)
-			instance = new MalisisItemRenderer();
-		return instance;
-	}
-
-	@Override
-	public void renderByItem(ItemStack stack, ItemDisplayContext context, PoseStack poseStack, MultiBufferSource buffer, int light, int overlay)
+	public static void render(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int light, int overlay)
 	{
 		poseStack.pushPose();
 		if (stack.is(ModItems.CUSTOM_DOOR.get()))

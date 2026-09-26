@@ -1,10 +1,15 @@
 package nadiendev.malisisdoorsrevived.door;
 
+import net.neoforged.neoforge.common.ItemAbilities;
+import net.minecraft.world.level.block.WeatheringCopper;
+import net.minecraft.world.item.HoneycombItem;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.ItemStack;
 import java.util.function.Supplier;
 
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
@@ -49,6 +54,16 @@ public sealed interface DoorAppearance
 			return copied;
 		}
 
+		public boolean isChangedBy(ItemStack stack)
+		{
+			Block original = block.get();
+			if (stack.is(Items.HONEYCOMB))
+				return HoneycombItem.WAXABLES.get().containsKey(original);
+			if (stack.canPerformAction(ItemAbilities.AXE_WAX_OFF) && HoneycombItem.WAX_OFF_BY_BLOCK.get().containsKey(original))
+				return true;
+			return stack.canPerformAction(ItemAbilities.AXE_SCRAPE) && WeatheringCopper.getPrevious(original).isPresent();
+		}
+
 		private static <T extends Comparable<T>> BlockState copyValue(BlockState from, BlockState to, Property<T> property)
 		{
 			return to.setValue(property, from.getValue(property));
@@ -61,7 +76,7 @@ public sealed interface DoorAppearance
 	 * @param model the location of the model (for example "malisisdoors:models/saloon_door.obj")
 	 * @param texture the location of the texture in the block atlas (for example "malisisdoors:block/saloon_door")
 	 */
-	record Obj(ResourceLocation model, ResourceLocation texture) implements DoorAppearance
+	record Obj(Identifier model, Identifier texture) implements DoorAppearance
 	{}
 
 	/**
@@ -69,7 +84,7 @@ public sealed interface DoorAppearance
 	 *
 	 * @param texture the location of the texture in the block atlas
 	 */
-	record Textured(ResourceLocation texture) implements DoorAppearance
+	record Textured(Identifier texture) implements DoorAppearance
 	{}
 
 	/**

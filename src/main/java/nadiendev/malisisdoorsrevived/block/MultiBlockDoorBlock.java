@@ -1,5 +1,8 @@
 package nadiendev.malisisdoorsrevived.block;
 
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluid;
@@ -8,12 +11,12 @@ import net.minecraft.world.level.LevelAccessor;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
-import net.malisis.core.multiblock.IMultiBlockController;
-import net.malisis.core.multiblock.MultiBlockHelper;
-import net.malisis.core.util.BlockEntityUtils;
-import net.malisis.core.util.DirectionUtils;
+import nadiendev.malisiscorerevived.multiblock.IMultiBlockController;
+import nadiendev.malisiscorerevived.multiblock.MultiBlockHelper;
+import nadiendev.malisiscorerevived.util.BlockEntityUtils;
+import nadiendev.malisiscorerevived.util.DirectionUtils;
 import nadiendev.malisisdoorsrevived.blockentity.DoorBlockEntity;
 import nadiendev.malisisdoorsrevived.blockentity.MultiBlockDoorBlockEntity;
 import nadiendev.malisisdoorsrevived.door.DoorAppearance;
@@ -42,7 +45,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
@@ -53,14 +55,14 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 /**
  * Base class for the doors spanning several blocks.<br>
  * The block at the origin holds the {@link MultiBlockDoorBlockEntity} and the rest of the space is filled with
- * {@link net.malisis.core.multiblock.MultiBlockPartBlock parts} delegating to this block.<br>
+ * {@link nadiendev.malisiscorerevived.multiblock.MultiBlockPartBlock parts} delegating to this block.<br>
  * Positions and bounding boxes are defined for a door facing {@link Direction#SOUTH}, relative to the origin.
  *
  * @author Ordinastie
  */
 public abstract class MultiBlockDoorBlock extends Block implements EntityBlock, IMultiBlockController, IDoorBlock, LiquidBlockContainer
 {
-	public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+	public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
 	public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
 
 	protected final DoorDescriptor descriptor;
@@ -170,11 +172,9 @@ public abstract class MultiBlockDoorBlock extends Block implements EntityBlock, 
 	}
 
 	@Override
-	protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston)
+	protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean movedByPiston)
 	{
-		if (!state.is(newState.getBlock()))
-			MultiBlockHelper.removeParts(level, pos, getPositions(pos, state));
-		super.onRemove(state, level, pos, newState, movedByPiston);
+		MultiBlockHelper.removeParts(level, pos, getPositions(pos, state));
 	}
 
 	@Override
@@ -218,11 +218,11 @@ public abstract class MultiBlockDoorBlock extends Block implements EntityBlock, 
 	@Override
 	protected RenderShape getRenderShape(BlockState state)
 	{
-		return RenderShape.ENTITYBLOCK_ANIMATED;
+		return RenderShape.INVISIBLE;
 	}
 
 	@Override
-	protected boolean propagatesSkylightDown(BlockState state, BlockGetter level, BlockPos pos)
+	protected boolean propagatesSkylightDown(BlockState state)
 	{
 		return true;
 	}
@@ -255,13 +255,13 @@ public abstract class MultiBlockDoorBlock extends Block implements EntityBlock, 
 	}
 
 	@Override
-	protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston)
+	protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, @Nullable Orientation orientation, boolean movedByPiston)
 	{
 		updatePower(state, level, pos);
 	}
 
 	@Override
-	public void onPartNeighborChanged(BlockState originState, Level level, BlockPos origin, BlockPos partPos, Block neighborBlock, BlockPos neighborPos)
+	public void onPartNeighborChanged(BlockState originState, Level level, BlockPos origin, BlockPos partPos, Block neighborBlock, @Nullable Orientation orientation)
 	{
 		updatePower(originState, level, origin);
 	}
@@ -319,7 +319,7 @@ public abstract class MultiBlockDoorBlock extends Block implements EntityBlock, 
 	 * Fluids can't flow into this block : it would break it.
 	 */
 	@Override
-	public boolean canPlaceLiquid(@Nullable Player player, BlockGetter level, BlockPos pos, BlockState state, Fluid fluid)
+	public boolean canPlaceLiquid(@Nullable LivingEntity player, BlockGetter level, BlockPos pos, BlockState state, Fluid fluid)
 	{
 		return false;
 	}

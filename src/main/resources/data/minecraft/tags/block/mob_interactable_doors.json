@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "malisisdoors:animated_copper_door",
+    "malisisdoors:animated_exposed_copper_door",
+    "malisisdoors:animated_weathered_copper_door",
+    "malisisdoors:animated_oxidized_copper_door",
+    "malisisdoors:animated_waxed_copper_door",
+    "malisisdoors:animated_waxed_exposed_copper_door",
+    "malisisdoors:animated_waxed_weathered_copper_door",
+    "malisisdoors:animated_waxed_oxidized_copper_door"
+  ]
+}

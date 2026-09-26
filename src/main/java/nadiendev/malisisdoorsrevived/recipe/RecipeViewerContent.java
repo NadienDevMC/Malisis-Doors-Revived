@@ -8,25 +8,24 @@ import nadiendev.malisisdoorsrevived.registry.ModItems;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.ItemLike;
 
 public class RecipeViewerContent
 {
 	public record Info(ItemLike item, Component text)
 	{
-		public ResourceLocation id()
+		public Identifier id()
 		{
 			return MalisisDoors.id("/info/" + BuiltInRegistries.ITEM.getKey(item.asItem()).getPath());
 		}
 	}
 
-	public record BigDoorExample(ResourceLocation id, Ingredient door, Ingredient frame, ItemStack result)
+	public record BigDoorExample(Identifier id, Ingredient door, Ingredient frame, ItemStack result)
 	{
 		public NonNullList<Ingredient> inputs()
 		{
@@ -57,18 +56,13 @@ public class RecipeViewerContent
 		return new Info(item, Component.translatable("malisisdoors.info." + key));
 	}
 
-	public static List<BigDoorExample> bigDoorExamples(RecipeManager recipes)
+	public static List<BigDoorExample> bigDoorExamples()
 	{
-		return recipes	.getAllRecipesFor(RecipeType.CRAFTING)
-						.stream()
-						.filter(holder -> holder.value() instanceof BigDoorRecipe)
-						.map(holder -> {
-							BigDoorRecipe recipe = (BigDoorRecipe) holder.value();
-							return new BigDoorExample(	MalisisDoors.id("/" + holder.id().getPath()),
-														recipe.getDoor(),
-														Ingredient.of(ItemTags.PLANKS),
-														recipe.getResult());
-						})
-						.toList();
+		return List.of(bigDoorExample("carriage_door", Items.OAK_DOOR, ModItems.CARRIAGE_DOOR.get()), bigDoorExample("medieval_door", Items.SPRUCE_DOOR, ModItems.MEDIEVAL_DOOR.get()));
+	}
+
+	private static BigDoorExample bigDoorExample(String name, ItemLike door, ItemLike result)
+	{
+		return new BigDoorExample(MalisisDoors.id("/" + name), Ingredient.of(door), Ingredient.of(BuiltInRegistries.ITEM.getOrThrow(ItemTags.PLANKS)), new ItemStack(result));
 	}
 }

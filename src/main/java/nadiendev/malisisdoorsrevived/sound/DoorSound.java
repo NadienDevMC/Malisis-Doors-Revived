@@ -4,7 +4,7 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import nadiendev.malisisdoorsrevived.door.DoorState;
 import net.minecraft.sounds.SoundEvent;

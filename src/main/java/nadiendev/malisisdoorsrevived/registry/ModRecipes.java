@@ -12,5 +12,5 @@ public class ModRecipes
 {
 	public static final DeferredRegister<RecipeSerializer<?>> SERIALIZERS = DeferredRegister.create(Registries.RECIPE_SERIALIZER, MalisisDoors.MODID);
 
-	public static final Supplier<RecipeSerializer<BigDoorRecipe>> BIG_DOOR = SERIALIZERS.register("big_door", BigDoorRecipe.Serializer::new);
+	public static final Supplier<RecipeSerializer<BigDoorRecipe>> BIG_DOOR = SERIALIZERS.register("big_door", () -> BigDoorRecipe.SERIALIZER);
 }

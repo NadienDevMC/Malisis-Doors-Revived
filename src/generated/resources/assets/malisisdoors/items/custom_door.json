@@ -1,0 +1,9 @@
+{
+  "model": {
+    "type": "minecraft:special",
+    "base": "malisisdoors:item/custom_door",
+    "model": {
+      "type": "malisisdoors:item"
+    }
+  }
+}

@@ -1,15 +1,16 @@
 package nadiendev.malisisdoorsrevived.block;
 
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.block.LiquidBlockContainer;
 import net.minecraft.world.level.LevelAccessor;
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
-import net.malisis.core.multiblock.IMultiBlockController;
-import net.malisis.core.multiblock.MultiBlockHelper;
-import net.malisis.core.util.BlockEntityUtils;
+import nadiendev.malisiscorerevived.multiblock.IMultiBlockController;
+import nadiendev.malisiscorerevived.multiblock.MultiBlockHelper;
+import nadiendev.malisiscorerevived.util.BlockEntityUtils;
 import nadiendev.malisisdoorsrevived.blockentity.ForcefieldBlockEntity;
 import nadiendev.malisisdoorsrevived.item.ForcefieldItem;
 import nadiendev.malisisdoorsrevived.registry.ModItems;
@@ -17,7 +18,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -62,11 +63,11 @@ public class ForcefieldBlock extends Block implements EntityBlock, IMultiBlockCo
 	@Override
 	protected RenderShape getRenderShape(BlockState state)
 	{
-		return RenderShape.ENTITYBLOCK_ANIMATED;
+		return RenderShape.INVISIBLE;
 	}
 
 	@Override
-	protected boolean propagatesSkylightDown(BlockState state, BlockGetter level, BlockPos pos)
+	protected boolean propagatesSkylightDown(BlockState state)
 	{
 		return true;
 	}
@@ -93,22 +94,22 @@ public class ForcefieldBlock extends Block implements EntityBlock, IMultiBlockCo
 	}
 
 	@Override
-	protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit)
+	protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit)
 	{
 		return useItemOnPart(stack, state, level, pos, pos, player, hand, hit);
 	}
 
 	@Override
-	public ItemInteractionResult useItemOnPart(ItemStack stack, BlockState originState, Level level, BlockPos origin, BlockPos partPos, Player player, InteractionHand hand, BlockHitResult hit)
+	public InteractionResult useItemOnPart(ItemStack stack, BlockState originState, Level level, BlockPos origin, BlockPos partPos, Player player, InteractionHand hand, BlockHitResult hit)
 	{
 		if (!(stack.getItem() instanceof ForcefieldItem item))
-			return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+			return InteractionResult.TRY_WITH_EMPTY_HAND;
 		if (level.isClientSide())
-			return ItemInteractionResult.SUCCESS;
+			return InteractionResult.SUCCESS;
 
 		ForcefieldBlockEntity be = getForcefield(level, origin);
 		if (be == null)
-			return ItemInteractionResult.CONSUME;
+			return InteractionResult.CONSUME;
 
 		int size = be.getSize();
 		if (player.isShiftKeyDown())
@@ -125,23 +126,11 @@ public class ForcefieldBlock extends Block implements EntityBlock, IMultiBlockCo
 			be.switchForcefield();
 			level.playSound(null, origin, be.isOpened() ? SoundEvents.BEACON_DEACTIVATE : SoundEvents.BEACON_ACTIVATE, SoundSource.BLOCKS, 0.5F, 1.5F);
 		}
-		return ItemInteractionResult.CONSUME;
+		return InteractionResult.CONSUME;
 	}
 
 	@Override
-	protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston)
-	{
-		if (!state.is(newState.getBlock()))
-		{
-			ForcefieldBlockEntity be = getForcefield(level, pos);
-			if (be != null)
-				MultiBlockHelper.removeParts(level, pos, be.getPositions());
-		}
-		super.onRemove(state, level, pos, newState, movedByPiston);
-	}
-
-	@Override
-	public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player)
+	public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData, Player player)
 	{
 		return new ItemStack(ModItems.FORCEFIELD_CONTROLLER.get());
 	}
@@ -150,7 +139,7 @@ public class ForcefieldBlock extends Block implements EntityBlock, IMultiBlockCo
 	 * Fluids can't flow into this block : it would break it.
 	 */
 	@Override
-	public boolean canPlaceLiquid(@Nullable Player player, BlockGetter level, BlockPos pos, BlockState state, Fluid fluid)
+	public boolean canPlaceLiquid(@Nullable LivingEntity player, BlockGetter level, BlockPos pos, BlockState state, Fluid fluid)
 	{
 		return false;
 	}

@@ -5,34 +5,45 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import nadiendev.malisisdoorsrevived.registry.ModDataComponents;
 import nadiendev.malisisdoorsrevived.registry.ModRecipes;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
-import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 
-/**
- * Recipe for the big doors : a door and at least five identical blocks used for the frame of the door.
- *
- * @author Ordinastie
- */
 public class BigDoorRecipe extends CustomRecipe
 {
 	public static final int FRAME_COUNT = 5;
 
-	private final Ingredient door;
-	private final ItemStack result;
+	public static final MapCodec<BigDoorRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance
+			.group(	CraftingBookCategory.CODEC.fieldOf("category").orElse(CraftingBookCategory.MISC).forGetter(BigDoorRecipe::category),
+					Ingredient.CODEC.fieldOf("door").forGetter(BigDoorRecipe::getDoor),
+					ItemStackTemplate.CODEC.fieldOf("result").forGetter(recipe -> recipe.result))
+			.apply(instance, BigDoorRecipe::new));
 
-	public BigDoorRecipe(CraftingBookCategory category, Ingredient door, ItemStack result)
+	public static final StreamCodec<RegistryFriendlyByteBuf, BigDoorRecipe> STREAM_CODEC = StreamCodec.composite(	CraftingBookCategory.STREAM_CODEC,
+																													BigDoorRecipe::category,
+																													Ingredient.CONTENTS_STREAM_CODEC,
+																													BigDoorRecipe::getDoor,
+																													ItemStackTemplate.STREAM_CODEC,
+																													recipe -> recipe.result,
+																													BigDoorRecipe::new);
+
+	public static final RecipeSerializer<BigDoorRecipe> SERIALIZER = new RecipeSerializer<>(CODEC, STREAM_CODEC);
+
+	private final CraftingBookCategory category;
+	private final Ingredient door;
+	private final ItemStackTemplate result;
+
+	public BigDoorRecipe(CraftingBookCategory category, Ingredient door, ItemStackTemplate result)
 	{
-		super(category);
+		this.category = category;
 		this.door = door;
 		this.result = result;
 	}
@@ -44,14 +55,15 @@ public class BigDoorRecipe extends CustomRecipe
 
 	public ItemStack getResult()
 	{
-		return result;
+		return result.create();
 	}
 
-	/**
-	 * Gets the stack used for the frame.
-	 *
-	 * @return the frame stack, or an empty stack if the input doesn't match
-	 */
+	@Override
+	public CraftingBookCategory category()
+	{
+		return category;
+	}
+
 	private ItemStack getFrame(CraftingInput input)
 	{
 		boolean doorFound = false;
@@ -84,60 +96,19 @@ public class BigDoorRecipe extends CustomRecipe
 	}
 
 	@Override
-	public ItemStack assemble(CraftingInput input, HolderLookup.Provider registries)
+	public ItemStack assemble(CraftingInput input)
 	{
 		ItemStack frame = getFrame(input);
 		if (frame.isEmpty())
 			return ItemStack.EMPTY;
-		ItemStack stack = result.copy();
+		ItemStack stack = result.create();
 		stack.set(ModDataComponents.FRAME_STATE.get(), ((BlockItem) frame.getItem()).getBlock().defaultBlockState());
 		return stack;
 	}
 
 	@Override
-	public ItemStack getResultItem(HolderLookup.Provider registries)
-	{
-		return result.copy();
-	}
-
-	@Override
-	public boolean canCraftInDimensions(int width, int height)
-	{
-		return width * height > FRAME_COUNT;
-	}
-
-	@Override
-	public RecipeSerializer<?> getSerializer()
+	public RecipeSerializer<BigDoorRecipe> getSerializer()
 	{
 		return ModRecipes.BIG_DOOR.get();
-	}
-
-	public static class Serializer implements RecipeSerializer<BigDoorRecipe>
-	{
-		private static final MapCodec<BigDoorRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance
-				.group(	CraftingBookCategory.CODEC.fieldOf("category").orElse(CraftingBookCategory.MISC).forGetter(CraftingRecipe::category),
-						Ingredient.CODEC_NONEMPTY.fieldOf("door").forGetter(r -> r.door),
-						ItemStack.STRICT_CODEC.fieldOf("result").forGetter(r -> r.result))
-				.apply(instance, BigDoorRecipe::new));
-
-		private static final StreamCodec<RegistryFriendlyByteBuf, BigDoorRecipe> STREAM_CODEC = StreamCodec.composite(	CraftingBookCategory.STREAM_CODEC,
-																														CraftingRecipe::category,
-																														Ingredient.CONTENTS_STREAM_CODEC,
-																														r -> r.door,
-																														ItemStack.STREAM_CODEC,
-																														r -> r.result,
-																														BigDoorRecipe::new);
-
-		@Override
-		public MapCodec<BigDoorRecipe> codec()
-		{
-			return CODEC;
-		}
-
-		@Override
-		public StreamCodec<RegistryFriendlyByteBuf, BigDoorRecipe> streamCodec()
-		{
-			return STREAM_CODEC;
-		}
 	}
 }

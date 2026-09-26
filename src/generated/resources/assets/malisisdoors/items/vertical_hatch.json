@@ -1,0 +1,9 @@
+{
+  "model": {
+    "type": "minecraft:special",
+    "base": "malisisdoors:item/vertical_hatch",
+    "model": {
+      "type": "malisisdoors:item"
+    }
+  }
+}

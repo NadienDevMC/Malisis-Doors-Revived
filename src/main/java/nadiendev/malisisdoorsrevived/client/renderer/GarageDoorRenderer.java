@@ -1,23 +1,23 @@
 package nadiendev.malisisdoorsrevived.client.renderer;
 
+import nadiendev.malisiscorerevived.client.render.SimpleBlockEntityRenderer;
 import java.util.List;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import net.malisis.core.animation.ChainedTransformation;
-import net.malisis.core.animation.ParallelTransformation;
-import net.malisis.core.animation.Rotation;
-import net.malisis.core.animation.Transformable;
-import net.malisis.core.animation.Translation;
-import net.malisis.core.client.render.RenderUtils;
-import net.malisis.core.util.DirectionUtils;
+import nadiendev.malisiscorerevived.animation.ChainedTransformation;
+import nadiendev.malisiscorerevived.animation.ParallelTransformation;
+import nadiendev.malisiscorerevived.animation.Rotation;
+import nadiendev.malisiscorerevived.animation.Transformable;
+import nadiendev.malisiscorerevived.animation.Translation;
+import nadiendev.malisiscorerevived.client.render.RenderUtils;
+import nadiendev.malisiscorerevived.util.DirectionUtils;
 import nadiendev.malisisdoorsrevived.MalisisDoors;
 import nadiendev.malisisdoorsrevived.blockentity.GarageDoorBlockEntity;
 import nadiendev.malisisdoorsrevived.movement.IDoorMovement;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
@@ -28,7 +28,7 @@ import net.minecraft.world.phys.AABB;
  *
  * @author Ordinastie
  */
-public class GarageDoorRenderer implements BlockEntityRenderer<GarageDoorBlockEntity>
+public class GarageDoorRenderer extends SimpleBlockEntityRenderer<GarageDoorBlockEntity>
 {
 	private static final float W = IDoorMovement.DOOR_WIDTH;
 	private static final AABB PANEL = new AABB(0, 0, 0.5F - W / 2, 1, 1, 0.5F + W / 2);
@@ -37,7 +37,7 @@ public class GarageDoorRenderer implements BlockEntityRenderer<GarageDoorBlockEn
 	{}
 
 	@Override
-	public void render(GarageDoorBlockEntity be, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay)
+	protected void render(GarageDoorBlockEntity be, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay)
 	{
 		if (!be.isTopDoor() || be.getLevel() == null)
 			return;
@@ -71,7 +71,7 @@ public class GarageDoorRenderer implements BlockEntityRenderer<GarageDoorBlockEn
 
 			boolean isTop = panel == be;
 			RenderUtils.BoxTexture texture = RenderUtils.BoxTexture.of(side -> isTop && side.getAxis() == Direction.Axis.Z ? top : base);
-			int light = LevelRenderer.getLightColor(be.getLevel(), panel.getBlockPos());
+			int light = LevelRenderer.getLightCoords(be.getLevel(), panel.getBlockPos());
 			RenderUtils.renderBox(poseStack.last(), consumer, PANEL, texture, 0xFFFFFFFF, light, packedOverlay);
 			poseStack.popPose();
 		}

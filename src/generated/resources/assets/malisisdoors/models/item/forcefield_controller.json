@@ -1,25 +1,5 @@
 {
   "parent": "minecraft:item/handheld",
-  "overrides": [
-    {
-      "model": "malisisdoors:item/forcefield_controller_yellow",
-      "predicate": {
-        "malisisdoors:state": 0.25
-      }
-    },
-    {
-      "model": "malisisdoors:item/forcefield_controller_red",
-      "predicate": {
-        "malisisdoors:state": 0.5
-      }
-    },
-    {
-      "model": "malisisdoors:item/forcefield_controller_green",
-      "predicate": {
-        "malisisdoors:state": 0.75
-      }
-    }
-  ],
   "textures": {
     "layer0": "malisisdoors:item/forcefield_controller"
   }

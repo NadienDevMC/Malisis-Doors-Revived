@@ -7,9 +7,7 @@
     "AA "
   ],
   "key": {
-    "A": {
-      "item": "minecraft:iron_ingot"
-    }
+    "A": "minecraft:iron_ingot"
   },
   "result": {
     "id": "malisisdoors:vertical_hatch",

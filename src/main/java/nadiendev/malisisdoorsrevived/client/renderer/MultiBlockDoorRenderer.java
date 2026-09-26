@@ -1,11 +1,12 @@
 package nadiendev.malisisdoorsrevived.client.renderer;
 
+import nadiendev.malisiscorerevived.client.render.SimpleBlockEntityRenderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import net.malisis.core.client.model.ObjModel;
-import net.malisis.core.client.model.ObjModelCache;
-import net.malisis.core.client.render.RenderUtils;
+import nadiendev.malisiscorerevived.client.model.ObjModel;
+import nadiendev.malisiscorerevived.client.model.ObjModelCache;
+import nadiendev.malisiscorerevived.client.render.RenderUtils;
 import nadiendev.malisisdoorsrevived.MalisisDoors;
 import nadiendev.malisisdoorsrevived.block.BigDoorBlock;
 import nadiendev.malisisdoorsrevived.block.Door3x3Block;
@@ -17,11 +18,10 @@ import nadiendev.malisisdoorsrevived.door.IDoorBlock;
 import nadiendev.malisisdoorsrevived.movement.DoorPart;
 import nadiendev.malisisdoorsrevived.movement.IDoorMovement;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
@@ -30,17 +30,17 @@ import net.minecraft.world.phys.AABB;
  *
  * @author Ordinastie
  */
-public class MultiBlockDoorRenderer implements BlockEntityRenderer<MultiBlockDoorBlockEntity>
+public class MultiBlockDoorRenderer extends SimpleBlockEntityRenderer<MultiBlockDoorBlockEntity>
 {
 	private static final float W = IDoorMovement.DOOR_WIDTH;
-	private static final ResourceLocation RUSTY_HATCH_HANDLE = MalisisDoors.id("block/rusty_hatch_handle");
-	private static final ResourceLocation RUSTY_HATCH_FRAME = ResourceLocation.withDefaultNamespace("block/furnace_top");
+	private static final Identifier RUSTY_HATCH_HANDLE = MalisisDoors.id("block/rusty_hatch_handle");
+	private static final Identifier RUSTY_HATCH_FRAME = Identifier.withDefaultNamespace("block/furnace_top");
 
 	public MultiBlockDoorRenderer(BlockEntityRendererProvider.Context context)
 	{}
 
 	@Override
-	public void render(MultiBlockDoorBlockEntity be, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int light, int overlay)
+	protected void render(MultiBlockDoorBlockEntity be, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int light, int overlay)
 	{
 		BlockState state = be.getBlockState();
 		if (!(state.getBlock() instanceof IDoorBlock door))
@@ -191,7 +191,7 @@ public class MultiBlockDoorRenderer implements BlockEntityRenderer<MultiBlockDoo
 	}
 
 	@Override
-	public boolean shouldRenderOffScreen(MultiBlockDoorBlockEntity be)
+	public boolean shouldRenderOffScreen()
 	{
 		return true;
 	}

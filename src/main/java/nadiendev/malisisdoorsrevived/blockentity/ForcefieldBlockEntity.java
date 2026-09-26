@@ -1,11 +1,14 @@
 package nadiendev.malisisdoorsrevived.blockentity;
 
+import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.level.storage.ValueInput;
+import nadiendev.malisiscorerevived.multiblock.MultiBlockHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
-import net.malisis.core.util.AABBUtils;
+import nadiendev.malisiscorerevived.util.AABBUtils;
 import nadiendev.malisisdoorsrevived.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -134,25 +137,20 @@ public class ForcefieldBlockEntity extends BlockEntity
 	}
 
 	@Override
-	protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries)
+	protected void loadAdditional(ValueInput input)
 	{
-		super.loadAdditional(tag, registries);
-		opened = tag.getBoolean("opened");
-		if (tag.contains("area"))
-			area = AABBUtils.read(tag.getCompound("area"));
+		super.loadAdditional(input);
+		opened = input.getBooleanOr("opened", false);
+		area = input.child("area").map(AABBUtils::read).orElse(null);
 	}
 
 	@Override
-	protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries)
+	protected void saveAdditional(ValueOutput output)
 	{
-		super.saveAdditional(tag, registries);
-		tag.putBoolean("opened", opened);
+		super.saveAdditional(output);
+		output.putBoolean("opened", opened);
 		if (area != null)
-		{
-			CompoundTag areaTag = new CompoundTag();
-			AABBUtils.write(areaTag, area);
-			tag.put("area", areaTag);
-		}
+			AABBUtils.write(output.child("area"), area);
 	}
 
 	@Override
@@ -165,5 +163,13 @@ public class ForcefieldBlockEntity extends BlockEntity
 	public Packet<ClientGamePacketListener> getUpdatePacket()
 	{
 		return ClientboundBlockEntityDataPacket.create(this);
+	}
+
+	@Override
+	public void preRemoveSideEffects(BlockPos pos, BlockState state)
+	{
+		super.preRemoveSideEffects(pos, state);
+		if (level != null)
+			MultiBlockHelper.removeParts(level, pos, getPositions());
 	}
 }

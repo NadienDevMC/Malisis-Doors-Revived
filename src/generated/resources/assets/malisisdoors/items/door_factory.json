@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "malisisdoors:block/door_factory"
+  }
+}

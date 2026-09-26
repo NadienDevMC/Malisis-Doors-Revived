@@ -1,8 +1,10 @@
 package nadiendev.malisisdoorsrevived.blockentity;
 
+import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.level.storage.ValueInput;
 import java.util.List;
 
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import nadiendev.malisisdoorsrevived.block.MalisisDoorBlock;
 import nadiendev.malisisdoorsrevived.door.DoorMaterials;
@@ -279,44 +281,50 @@ public class DoorFactoryBlockEntity extends BlockEntity implements MenuProvider
 	//#end Door creation
 
 	@Override
-	protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries)
+	protected void loadAdditional(ValueInput input)
 	{
-		super.loadAdditional(tag, registries);
+		super.loadAdditional(input);
 		NonNullList<ItemStack> items = NonNullList.withSize(inventory.getContainerSize(), ItemStack.EMPTY);
-		ContainerHelper.loadAllItems(tag, items, registries);
+		ContainerHelper.loadAllItems(input, items);
 		for (int i = 0; i < items.size(); i++)
 			inventory.setItem(i, items.get(i));
 
 		List<String> movements = DoorRegistry.listMovements();
 		List<String> sounds = DoorRegistry.listSounds();
-		movement = Math.max(0, movements.indexOf(tag.getString("movement")));
-		if (tag.contains("sound"))
-			sound = Math.max(0, sounds.indexOf(tag.getString("sound")));
-		openingTime = Mth.clamp(tag.getInt("openingTime"), 1, MAX_OPENING_TIME);
-		autoCloseTime = Mth.clamp(tag.getInt("autoCloseTime"), 0, MAX_AUTO_CLOSE_TIME);
-		redstoneBehavior = RedstoneBehavior.values()[Mth.clamp(tag.getInt("redstoneBehavior"), 0, RedstoneBehavior.values().length - 1)];
-		doubleDoor = tag.getBoolean("doubleDoor");
-		proximityDetection = tag.getBoolean("proximityDetection");
-		createMode = !tag.contains("createMode") || tag.getBoolean("createMode");
+		movement = Math.max(0, movements.indexOf(input.getStringOr("movement", "")));
+		input.getString("sound").ifPresent(value -> sound = Math.max(0, sounds.indexOf(value)));
+		openingTime = Mth.clamp(input.getIntOr("openingTime", 0), 1, MAX_OPENING_TIME);
+		autoCloseTime = Mth.clamp(input.getIntOr("autoCloseTime", 0), 0, MAX_AUTO_CLOSE_TIME);
+		redstoneBehavior = RedstoneBehavior.values()[Mth.clamp(input.getIntOr("redstoneBehavior", 0), 0, RedstoneBehavior.values().length - 1)];
+		doubleDoor = input.getBooleanOr("doubleDoor", false);
+		proximityDetection = input.getBooleanOr("proximityDetection", false);
+		createMode = input.getBooleanOr("createMode", true);
 	}
 
 	@Override
-	protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries)
+	protected void saveAdditional(ValueOutput output)
 	{
-		super.saveAdditional(tag, registries);
+		super.saveAdditional(output);
 		NonNullList<ItemStack> items = NonNullList.withSize(inventory.getContainerSize(), ItemStack.EMPTY);
 		for (int i = 0; i < items.size(); i++)
 			items.set(i, inventory.getItem(i));
-		ContainerHelper.saveAllItems(tag, items, registries);
+		ContainerHelper.saveAllItems(output, items);
 
 		DoorSettings settings = getSettings();
-		tag.putString("movement", settings.movement());
-		tag.putString("sound", settings.sound());
-		tag.putInt("openingTime", openingTime);
-		tag.putInt("autoCloseTime", autoCloseTime);
-		tag.putInt("redstoneBehavior", redstoneBehavior.ordinal());
-		tag.putBoolean("doubleDoor", doubleDoor);
-		tag.putBoolean("proximityDetection", proximityDetection);
-		tag.putBoolean("createMode", createMode);
+		output.putString("movement", settings.movement());
+		output.putString("sound", settings.sound());
+		output.putInt("openingTime", openingTime);
+		output.putInt("autoCloseTime", autoCloseTime);
+		output.putInt("redstoneBehavior", redstoneBehavior.ordinal());
+		output.putBoolean("doubleDoor", doubleDoor);
+		output.putBoolean("proximityDetection", proximityDetection);
+		output.putBoolean("createMode", createMode);
+	}
+
+	@Override
+	public void preRemoveSideEffects(BlockPos pos, BlockState state)
+	{
+		super.preRemoveSideEffects(pos, state);
+		dropContents();
 	}
 }

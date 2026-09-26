@@ -1,12 +1,13 @@
 package nadiendev.malisisdoorsrevived.client.renderer;
 
+import nadiendev.malisiscorerevived.client.render.SimpleBlockEntityRenderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import net.malisis.core.animation.Transformable;
-import net.malisis.core.client.model.ObjModel;
-import net.malisis.core.client.model.ObjModelCache;
-import net.malisis.core.client.render.RenderUtils;
+import nadiendev.malisiscorerevived.animation.Transformable;
+import nadiendev.malisiscorerevived.client.model.ObjModel;
+import nadiendev.malisiscorerevived.client.model.ObjModelCache;
+import nadiendev.malisiscorerevived.client.render.RenderUtils;
 import nadiendev.malisisdoorsrevived.block.MalisisDoorBlock;
 import nadiendev.malisisdoorsrevived.blockentity.CustomDoorBlockEntity;
 import nadiendev.malisisdoorsrevived.blockentity.DoorBlockEntity;
@@ -16,7 +17,6 @@ import nadiendev.malisisdoorsrevived.movement.DoorPart;
 import nadiendev.malisisdoorsrevived.movement.IDoorMovement;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
@@ -34,7 +34,7 @@ import net.minecraft.world.phys.AABB;
  *
  * @author Ordinastie
  */
-public class DoorRenderer implements BlockEntityRenderer<DoorBlockEntity>
+public class DoorRenderer extends SimpleBlockEntityRenderer<DoorBlockEntity>
 {
 	private static final float W = IDoorMovement.DOOR_WIDTH;
 	private static final float FRAME = 1 / 8F;
@@ -43,7 +43,7 @@ public class DoorRenderer implements BlockEntityRenderer<DoorBlockEntity>
 	{}
 
 	@Override
-	public void render(DoorBlockEntity be, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay)
+	protected void render(DoorBlockEntity be, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay)
 	{
 		BlockState state = be.getBlockState();
 		if (!(state.getBlock() instanceof MalisisDoorBlock door))
@@ -51,7 +51,7 @@ public class DoorRenderer implements BlockEntityRenderer<DoorBlockEntity>
 
 		Level level = be.getLevel();
 		BlockPos pos = be.getBlockPos();
-		int topLight = level != null ? LevelRenderer.getLightColor(level, pos.above()) : packedLight;
+		int topLight = level != null ? LevelRenderer.getLightCoords(level, pos.above()) : packedLight;
 		Direction direction = be.getDirection();
 
 		switch (door.getAppearance())

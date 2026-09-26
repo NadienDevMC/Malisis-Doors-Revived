@@ -1,6 +1,7 @@
 package nadiendev.malisisdoorsrevived.block;
 
-import javax.annotation.Nullable;
+import net.minecraft.server.level.ServerLevel;
+import org.jspecify.annotations.Nullable;
 
 import com.mojang.serialization.MapCodec;
 
@@ -78,13 +79,8 @@ public class DoorFactoryBlock extends BaseEntityBlock
 	}
 
 	@Override
-	protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston)
+	protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean movedByPiston)
 	{
-		if (!state.is(newState.getBlock()) && level.getBlockEntity(pos) instanceof DoorFactoryBlockEntity be)
-		{
-			be.dropContents();
-			level.updateNeighbourForOutputSignal(pos, this);
-		}
-		super.onRemove(state, level, pos, newState, movedByPiston);
+		level.updateNeighbourForOutputSignal(pos, this);
 	}
 }

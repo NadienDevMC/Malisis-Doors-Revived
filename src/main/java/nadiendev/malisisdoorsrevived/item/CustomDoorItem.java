@@ -1,5 +1,7 @@
 package nadiendev.malisisdoorsrevived.item;
 
+import java.util.function.Consumer;
+import net.minecraft.world.item.component.TooltipDisplay;
 import java.util.List;
 
 import nadiendev.malisisdoorsrevived.door.DoorMaterials;
@@ -24,13 +26,13 @@ public class CustomDoorItem extends DoubleHighBlockItem
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag)
+	public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag)
 	{
 		DoorMaterials materials = stack.getOrDefault(ModDataComponents.DOOR_MATERIALS.get(), DoorMaterials.DEFAULT);
-		tooltip.add(Component.translatable("item.malisisdoors.custom_door.frame", materials.frame().getBlock().getName())
+		tooltip.accept(Component.translatable("item.malisisdoors.custom_door.frame", materials.frame().getBlock().getName())
 								.withStyle(ChatFormatting.GRAY));
-		tooltip.add(Component.translatable("item.malisisdoors.custom_door.top", materials.top().getBlock().getName()).withStyle(ChatFormatting.GRAY));
-		tooltip.add(Component.translatable("item.malisisdoors.custom_door.bottom", materials.bottom().getBlock().getName())
+		tooltip.accept(Component.translatable("item.malisisdoors.custom_door.top", materials.top().getBlock().getName()).withStyle(ChatFormatting.GRAY));
+		tooltip.accept(Component.translatable("item.malisisdoors.custom_door.bottom", materials.bottom().getBlock().getName())
 								.withStyle(ChatFormatting.GRAY));
 		DoorItemTooltips.appendSettings(stack, tooltip);
 	}

@@ -7,12 +7,8 @@
     "AB"
   ],
   "key": {
-    "A": {
-      "item": "minecraft:iron_ingot"
-    },
-    "B": {
-      "tag": "c:glass_blocks/colorless"
-    }
+    "A": "minecraft:iron_ingot",
+    "B": "#c:glass_blocks/colorless"
   },
   "result": {
     "id": "malisisdoors:iron_sliding_door",

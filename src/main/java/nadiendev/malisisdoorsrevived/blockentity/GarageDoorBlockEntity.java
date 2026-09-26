@@ -3,9 +3,9 @@ package nadiendev.malisisdoorsrevived.blockentity;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
-import net.malisis.core.util.BlockEntityUtils;
+import nadiendev.malisiscorerevived.util.BlockEntityUtils;
 import nadiendev.malisisdoorsrevived.door.DoorState;
 import nadiendev.malisisdoorsrevived.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;

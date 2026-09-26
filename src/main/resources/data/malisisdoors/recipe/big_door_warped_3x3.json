@@ -6,9 +6,7 @@
     "AA"
   ],
   "key": {
-    "A": {
-      "item": "minecraft:warped_door"
-    }
+    "A": "minecraft:warped_door"
   },
   "result": {
     "id": "malisisdoors:big_door_warped_3x3",

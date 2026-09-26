@@ -1,8 +1,8 @@
 package nadiendev.malisisdoorsrevived.movement;
 
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
-import net.malisis.core.animation.Transformation;
+import nadiendev.malisiscorerevived.animation.Transformation;
 import nadiendev.malisisdoorsrevived.blockentity.DoorBlockEntity;
 import net.minecraft.world.phys.AABB;
 
@@ -10,7 +10,7 @@ import net.minecraft.world.phys.AABB;
  * Defines how a door moves : its animation and its bounding boxes when opened and closed.<br>
  * Everything is defined for a door facing {@link net.minecraft.core.Direction#SOUTH}, the renderer and the block rotate it to the actual
  * facing.<br>
- * Rotations and scales offsets are relative to the center of the block (see {@link net.malisis.core.animation.Transformable}).
+ * Rotations and scales offsets are relative to the center of the block (see {@link nadiendev.malisiscorerevived.animation.Transformable}).
  *
  * @author Ordinastie
  */

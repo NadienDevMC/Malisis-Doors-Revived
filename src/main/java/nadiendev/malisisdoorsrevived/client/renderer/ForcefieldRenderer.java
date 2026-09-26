@@ -1,17 +1,17 @@
 package nadiendev.malisisdoorsrevived.client.renderer;
 
+import net.minecraft.util.LightCoordsUtil;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import nadiendev.malisiscorerevived.client.render.SimpleBlockEntityRenderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import nadiendev.malisisdoorsrevived.MalisisDoors;
 import nadiendev.malisisdoorsrevived.blockentity.ForcefieldBlockEntity;
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.AABB;
 
 /**
@@ -19,10 +19,10 @@ import net.minecraft.world.phys.AABB;
  *
  * @author Ordinastie
  */
-public class ForcefieldRenderer implements BlockEntityRenderer<ForcefieldBlockEntity>
+public class ForcefieldRenderer extends SimpleBlockEntityRenderer<ForcefieldBlockEntity>
 {
 	private static final int FRAMES = 50;
-	private static final ResourceLocation[] TEXTURES = new ResourceLocation[FRAMES];
+	private static final Identifier[] TEXTURES = new Identifier[FRAMES];
 	static
 	{
 		for (int i = 0; i < FRAMES; i++)
@@ -37,14 +37,14 @@ public class ForcefieldRenderer implements BlockEntityRenderer<ForcefieldBlockEn
 	{}
 
 	@Override
-	public void render(ForcefieldBlockEntity be, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay)
+	protected void render(ForcefieldBlockEntity be, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay)
 	{
 		AABB area = be.getArea();
 		if (area == null || be.isOpened() || be.getLevel() == null)
 			return;
 
 		int frame = (int) (be.getLevel().getGameTime() % FRAMES);
-		VertexConsumer consumer = buffer.getBuffer(RenderType.eyes(TEXTURES[frame]));
+		VertexConsumer consumer = buffer.getBuffer(RenderTypes.eyes(TEXTURES[frame]));
 		PoseStack.Pose pose = poseStack.last();
 
 		float x0 = (float) area.minX, y0 = (float) area.minY, z0 = (float) area.minZ;
@@ -91,12 +91,12 @@ public class ForcefieldRenderer implements BlockEntityRenderer<ForcefieldBlockEn
 				.setColor(COLOR)
 				.setUv(u, v)
 				.setOverlay(OverlayTexture.NO_OVERLAY)
-				.setLight(LightTexture.FULL_BRIGHT)
+				.setLight(LightCoordsUtil.FULL_BRIGHT)
 				.setNormal(pose, nx, ny, nz);
 	}
 
 	@Override
-	public boolean shouldRenderOffScreen(ForcefieldBlockEntity be)
+	public boolean shouldRenderOffScreen()
 	{
 		return true;
 	}

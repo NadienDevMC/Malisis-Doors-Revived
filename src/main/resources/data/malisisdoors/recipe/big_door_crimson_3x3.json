@@ -6,9 +6,7 @@
     "AA"
   ],
   "key": {
-    "A": {
-      "item": "minecraft:crimson_door"
-    }
+    "A": "minecraft:crimson_door"
   },
   "result": {
     "id": "malisisdoors:big_door_crimson_3x3",

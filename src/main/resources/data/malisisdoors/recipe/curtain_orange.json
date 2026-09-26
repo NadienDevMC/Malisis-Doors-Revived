@@ -7,9 +7,7 @@
     "AA"
   ],
   "key": {
-    "A": {
-      "item": "minecraft:orange_wool"
-    }
+    "A": "minecraft:orange_wool"
   },
   "result": {
     "id": "malisisdoors:curtain_orange",

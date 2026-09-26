@@ -1,7 +1,64 @@
 {
-  "parent": "malisisdoors:block/template_door_bottom_left",
+  "ambientocclusion": false,
+  "elements": [
+    {
+      "faces": {
+        "down": {
+          "rotation": 90,
+          "texture": "#side",
+          "uv": [
+            0.0,
+            0.0,
+            3.0,
+            16.0
+          ]
+        },
+        "east": {
+          "texture": "#side",
+          "uv": [
+            12.0,
+            0.0,
+            15.0,
+            16.0
+          ]
+        },
+        "north": {
+          "texture": "#bottom"
+        },
+        "south": {
+          "texture": "#bottom",
+          "uv": [
+            16.0,
+            0.0,
+            0.0,
+            16.0
+          ]
+        },
+        "west": {
+          "texture": "#side",
+          "uv": [
+            9.0,
+            0.0,
+            12.0,
+            16.0
+          ]
+        }
+      },
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        3
+      ]
+    }
+  ],
   "textures": {
     "bottom": "malisisdoors:block/curtains/curtain_blue_lower",
+    "particle": "malisisdoors:block/curtains/curtain_blue_lower",
     "side": "malisisdoors:block/curtains/curtain_blue_side",
     "top": "malisisdoors:block/curtains/curtain_blue_upper"
   }

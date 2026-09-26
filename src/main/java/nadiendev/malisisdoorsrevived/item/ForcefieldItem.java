@@ -1,16 +1,20 @@
 package nadiendev.malisisdoorsrevived.item;
 
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.server.level.ServerLevel;
+import java.util.function.Consumer;
+import net.minecraft.world.item.component.TooltipDisplay;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import io.netty.buffer.ByteBuf;
-import net.malisis.core.multiblock.MultiBlockHelper;
-import net.malisis.core.util.AABBUtils;
+import nadiendev.malisiscorerevived.multiblock.MultiBlockHelper;
+import nadiendev.malisiscorerevived.util.AABBUtils;
 import nadiendev.malisisdoorsrevived.blockentity.ForcefieldBlockEntity;
 import nadiendev.malisisdoorsrevived.registry.ModBlocks;
 import nadiendev.malisisdoorsrevived.registry.ModDataComponents;
@@ -100,11 +104,8 @@ public class ForcefieldItem extends Item
 	}
 
 	@Override
-	public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean selected)
+	public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot)
 	{
-		if (level.isClientSide())
-			return;
-
 		Selection selection = stack.get(ModDataComponents.FORCEFIELD_SELECTION.get());
 		if (selection != null && level.getGameTime() - selection.time() > SELECTION_TIMEOUT)
 			stack.remove(ModDataComponents.FORCEFIELD_SELECTION.get());
@@ -191,7 +192,7 @@ public class ForcefieldItem extends Item
 		{
 			if (!level.isClientSide())
 				stack.set(ModDataComponents.FORCEFIELD_SELECTION.get(), new Selection(pos, level.getGameTime()));
-			return InteractionResult.sidedSuccess(level.isClientSide());
+			return InteractionResult.SUCCESS;
 		}
 
 		if (level.isClientSide())
@@ -233,13 +234,13 @@ public class ForcefieldItem extends Item
 	//#end Forcefield creation
 
 	@Override
-	public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag)
+	public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag)
 	{
-		tooltip.add(Component.translatable("item.malisisdoors.forcefield_controller.energy", getEnergy(stack), MAX_ENERGY).withStyle(ChatFormatting.AQUA));
+		tooltip.accept(Component.translatable("item.malisisdoors.forcefield_controller.energy", getEnergy(stack), MAX_ENERGY).withStyle(ChatFormatting.AQUA));
 		Selection selection = getSelection(stack);
 		if (selection != null)
-			tooltip.add(Component.translatable("item.malisisdoors.forcefield_controller.selection", selection.pos().toShortString())
+			tooltip.accept(Component.translatable("item.malisisdoors.forcefield_controller.selection", selection.pos().toShortString())
 									.withStyle(ChatFormatting.GRAY));
-		tooltip.add(Component.translatable("item.malisisdoors.forcefield_controller.help").withStyle(ChatFormatting.DARK_GRAY));
+		tooltip.accept(Component.translatable("item.malisisdoors.forcefield_controller.help").withStyle(ChatFormatting.DARK_GRAY));
 	}
 }

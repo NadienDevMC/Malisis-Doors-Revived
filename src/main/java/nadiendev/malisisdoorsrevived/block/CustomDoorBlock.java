@@ -40,9 +40,9 @@ public class CustomDoorBlock extends MalisisDoorBlock
 	}
 
 	@Override
-	public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player)
+	public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData, Player player)
 	{
-		ItemStack stack = super.getCloneItemStack(state, target, level, pos, player);
+		ItemStack stack = super.getCloneItemStack(level, pos, state, includeData, player);
 		if (getDoor(level, pos) instanceof CustomDoorBlockEntity be)
 		{
 			stack.set(ModDataComponents.DOOR_MATERIALS.get(), be.getMaterials());

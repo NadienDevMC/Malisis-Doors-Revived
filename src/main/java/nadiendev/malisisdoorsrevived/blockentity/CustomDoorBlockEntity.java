@@ -1,5 +1,8 @@
 package nadiendev.malisisdoorsrevived.blockentity;
 
+import net.minecraft.core.component.DataComponentGetter;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.level.storage.ValueInput;
 import nadiendev.malisisdoorsrevived.door.DoorMaterials;
 import nadiendev.malisisdoorsrevived.registry.ModBlockEntities;
 import nadiendev.malisisdoorsrevived.registry.ModDataComponents;
@@ -7,7 +10,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**
@@ -35,22 +37,21 @@ public class CustomDoorBlockEntity extends DoorBlockEntity
 	}
 
 	@Override
-	protected void readSyncData(CompoundTag tag, HolderLookup.Provider registries)
+	protected void readSyncData(ValueInput input)
 	{
-		super.readSyncData(tag, registries);
-		if (tag.contains("materials"))
-			DoorMaterials.CODEC.parse(NbtOps.INSTANCE, tag.get("materials")).result().ifPresent(this::setMaterials);
+		super.readSyncData(input);
+		input.read("materials", DoorMaterials.CODEC).ifPresent(this::setMaterials);
 	}
 
 	@Override
-	protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries)
+	protected void saveAdditional(ValueOutput output)
 	{
-		super.saveAdditional(tag, registries);
-		DoorMaterials.CODEC.encodeStart(NbtOps.INSTANCE, materials).result().ifPresent(t -> tag.put("materials", t));
+		super.saveAdditional(output);
+		output.store("materials", DoorMaterials.CODEC, materials);
 	}
 
 	@Override
-	protected void applyImplicitComponents(DataComponentInput input)
+	protected void applyImplicitComponents(DataComponentGetter input)
 	{
 		super.applyImplicitComponents(input);
 		DoorMaterials m = input.get(ModDataComponents.DOOR_MATERIALS.get());
@@ -67,9 +68,9 @@ public class CustomDoorBlockEntity extends DoorBlockEntity
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public void removeComponentsFromTag(CompoundTag tag)
+	public void removeComponentsFromTag(ValueOutput output)
 	{
-		super.removeComponentsFromTag(tag);
-		tag.remove("materials");
+		super.removeComponentsFromTag(output);
+		output.discard("materials");
 	}
 }

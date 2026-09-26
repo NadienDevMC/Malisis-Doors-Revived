@@ -7,21 +7,11 @@
     "AEA"
   ],
   "key": {
-    "A": {
-      "item": "minecraft:diamond"
-    },
-    "B": {
-      "item": "minecraft:obsidian"
-    },
-    "C": {
-      "item": "minecraft:repeater"
-    },
-    "D": {
-      "item": "minecraft:ender_eye"
-    },
-    "E": {
-      "item": "minecraft:comparator"
-    }
+    "A": "minecraft:diamond",
+    "B": "minecraft:obsidian",
+    "C": "minecraft:repeater",
+    "D": "minecraft:ender_eye",
+    "E": "minecraft:comparator"
   },
   "result": {
     "id": "malisisdoors:forcefield_controller",

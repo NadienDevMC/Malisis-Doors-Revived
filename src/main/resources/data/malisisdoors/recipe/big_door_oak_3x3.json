@@ -6,9 +6,7 @@
     "AA"
   ],
   "key": {
-    "A": {
-      "item": "minecraft:oak_door"
-    }
+    "A": "minecraft:oak_door"
   },
   "result": {
     "id": "malisisdoors:big_door_oak_3x3",

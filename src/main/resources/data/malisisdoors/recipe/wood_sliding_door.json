@@ -7,12 +7,8 @@
     "AB"
   ],
   "key": {
-    "A": {
-      "tag": "minecraft:planks"
-    },
-    "B": {
-      "tag": "c:glass_blocks/colorless"
-    }
+    "A": "#minecraft:planks",
+    "B": "#c:glass_blocks/colorless"
   },
   "result": {
     "id": "malisisdoors:wood_sliding_door",

@@ -7,9 +7,7 @@
     "AA"
   ],
   "key": {
-    "A": {
-      "item": "minecraft:iron_bars"
-    }
+    "A": "minecraft:iron_bars"
   },
   "result": {
     "id": "malisisdoors:jail_door",

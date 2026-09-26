@@ -6,12 +6,8 @@
     "AAA"
   ],
   "key": {
-    "A": {
-      "tag": "minecraft:planks"
-    },
-    "B": {
-      "item": "minecraft:glass"
-    }
+    "A": "#minecraft:planks",
+    "B": "minecraft:glass"
   },
   "result": {
     "id": "malisisdoors:garage_door",

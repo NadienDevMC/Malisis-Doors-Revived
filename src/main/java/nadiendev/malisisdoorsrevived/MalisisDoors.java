@@ -17,7 +17,7 @@ import nadiendev.malisisdoorsrevived.registry.ModItems;
 import nadiendev.malisisdoorsrevived.registry.ModMenus;
 import nadiendev.malisisdoorsrevived.registry.ModRecipes;
 import nadiendev.malisisdoorsrevived.registry.ModSounds;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -58,8 +58,8 @@ public class MalisisDoors
 		NeoForge.EVENT_BUS.addListener(VanillaDoorReplacer::onRightClickBlock);
 	}
 
-	public static ResourceLocation id(String path)
+	public static Identifier id(String path)
 	{
-		return ResourceLocation.fromNamespaceAndPath(MODID, path);
+		return Identifier.fromNamespaceAndPath(MODID, path);
 	}
 }

@@ -1,15 +1,18 @@
 package nadiendev.malisisdoorsrevived.block;
 
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.block.LiquidBlockContainer;
 import net.minecraft.world.level.LevelAccessor;
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
-import net.malisis.core.util.AABBUtils;
-import net.malisis.core.util.BlockEntityUtils;
+import nadiendev.malisiscorerevived.util.AABBUtils;
+import nadiendev.malisiscorerevived.util.BlockEntityUtils;
 import nadiendev.malisisdoorsrevived.blockentity.DoorBlockEntity;
 import nadiendev.malisisdoorsrevived.blockentity.GarageDoorBlockEntity;
 import nadiendev.malisisdoorsrevived.door.DoorAppearance;
@@ -37,7 +40,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -50,7 +52,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  */
 public class GarageDoorBlock extends Block implements EntityBlock, IDoorBlock, LiquidBlockContainer
 {
-	public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+	public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
 	public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
 
 	private static final AABB PANEL = new AABB(0, 0, 0.5F - IDoorMovement.DOOR_WIDTH / 2, 1, 1, 0.5F + IDoorMovement.DOOR_WIDTH / 2);
@@ -123,11 +125,11 @@ public class GarageDoorBlock extends Block implements EntityBlock, IDoorBlock, L
 	@Override
 	protected RenderShape getRenderShape(BlockState state)
 	{
-		return RenderShape.ENTITYBLOCK_ANIMATED;
+		return RenderShape.INVISIBLE;
 	}
 
 	@Override
-	protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston)
+	protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, @Nullable Orientation orientation, boolean movedByPiston)
 	{
 		if (level.isClientSide() || neighborBlock == this)
 			return;
@@ -168,7 +170,7 @@ public class GarageDoorBlock extends Block implements EntityBlock, IDoorBlock, L
 	 * Fluids can't flow into this block : it would break it.
 	 */
 	@Override
-	public boolean canPlaceLiquid(@Nullable Player player, BlockGetter level, BlockPos pos, BlockState state, Fluid fluid)
+	public boolean canPlaceLiquid(@Nullable LivingEntity player, BlockGetter level, BlockPos pos, BlockState state, Fluid fluid)
 	{
 		return false;
 	}

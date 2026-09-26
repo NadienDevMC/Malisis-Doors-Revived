@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -21,16 +21,17 @@ import nadiendev.malisisdoorsrevived.door.IDoorBlock;
 import nadiendev.malisisdoorsrevived.door.RedstoneBehavior;
 import net.minecraft.SharedConstants;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackLocationInfo;
 import net.minecraft.server.packs.PackResources;
 import net.minecraft.server.packs.PackSelectionConfig;
 import net.minecraft.server.packs.PackType;
-import net.minecraft.server.packs.metadata.MetadataSectionSerializer;
+import net.minecraft.server.packs.metadata.MetadataSectionType;
 import net.minecraft.server.packs.metadata.pack.PackMetadataSection;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.server.packs.resources.IoSupplier;
+import net.minecraft.util.InclusiveRange;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
@@ -43,7 +44,7 @@ public class AnimatedCopiesPack implements PackResources
 	private final PackLocationInfo location;
 	private final PackType type;
 	@Nullable
-	private Map<ResourceLocation, byte[]> files;
+	private Map<Identifier, byte[]> files;
 
 	private AnimatedCopiesPack(PackLocationInfo location, PackType type)
 	{
@@ -85,14 +86,14 @@ public class AnimatedCopiesPack implements PackResources
 		return Pack.readMetaAndCreate(location, supplier, type, new PackSelectionConfig(true, Pack.Position.BOTTOM, true));
 	}
 
-	private Map<ResourceLocation, byte[]> files()
+	private Map<Identifier, byte[]> files()
 	{
 		if (files == null)
 			files = type == PackType.CLIENT_RESOURCES ? blockStates() : tags();
 		return files;
 	}
 
-	private static Map<ResourceLocation, byte[]> blockStates()
+	private static Map<Identifier, byte[]> blockStates()
 	{
 		return AnimatedCopies	.getCopies()
 								.stream()
@@ -102,9 +103,9 @@ public class AnimatedCopiesPack implements PackResources
 															LinkedHashMap::new));
 	}
 
-	private static Map<ResourceLocation, byte[]> tags()
+	private static Map<Identifier, byte[]> tags()
 	{
-		Map<String, List<ResourceLocation>> tags = new LinkedHashMap<>();
+		Map<String, List<Identifier>> tags = new LinkedHashMap<>();
 		for (AnimatedCopies.Copy copy : AnimatedCopies.getCopies())
 		{
 			boolean wooden = !(copy.animated() instanceof IDoorBlock door) || door.getDescriptor().getRedstoneBehavior() != RedstoneBehavior.REDSTONE_ONLY;
@@ -125,14 +126,14 @@ public class AnimatedCopiesPack implements PackResources
 			}
 		}
 
-		Map<ResourceLocation, byte[]> files = new LinkedHashMap<>();
+		Map<Identifier, byte[]> files = new LinkedHashMap<>();
 		tags.forEach((tag, ids) -> {
 			JsonObject json = new JsonObject();
 			json.addProperty("replace", false);
 			JsonArray values = new JsonArray();
 			ids.forEach(id -> values.add(id.toString()));
 			json.add("values", values);
-			files.put(ResourceLocation.withDefaultNamespace("tags/block/" + tag + ".json"), json.toString().getBytes(StandardCharsets.UTF_8));
+			files.put(Identifier.withDefaultNamespace("tags/block/" + tag + ".json"), json.toString().getBytes(StandardCharsets.UTF_8));
 		});
 		return files;
 	}
@@ -146,7 +147,7 @@ public class AnimatedCopiesPack implements PackResources
 
 	@Nullable
 	@Override
-	public IoSupplier<InputStream> getResource(PackType type, ResourceLocation location)
+	public IoSupplier<InputStream> getResource(PackType type, Identifier location)
 	{
 		if (type != this.type)
 			return null;
@@ -170,17 +171,16 @@ public class AnimatedCopiesPack implements PackResources
 	{
 		if (type != this.type)
 			return Set.of();
-		return files().keySet().stream().map(ResourceLocation::getNamespace).collect(Collectors.toSet());
+		return files().keySet().stream().map(Identifier::getNamespace).collect(Collectors.toSet());
 	}
 
-	@Nullable
 	@Override
 	@SuppressWarnings("unchecked")
-	public <T> T getMetadataSection(MetadataSectionSerializer<T> serializer)
+	public <T> @Nullable T getMetadataSection(MetadataSectionType<T> section)
 	{
-		if (serializer != PackMetadataSection.TYPE)
+		if (!"pack".equals(section.name()))
 			return null;
-		return (T) new PackMetadataSection(location.title(), SharedConstants.getCurrentVersion().getPackVersion(type), Optional.empty());
+		return (T) new PackMetadataSection(location.title(), new InclusiveRange<>(SharedConstants.getCurrentVersion().packVersion(type)));
 	}
 
 	@Override

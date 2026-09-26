@@ -1,5 +1,6 @@
 package nadiendev.malisisdoorsrevived.block;
 
+import net.minecraft.world.entity.InsideBlockEffectApplier;
 import nadiendev.malisisdoorsrevived.blockentity.DoorBlockEntity;
 import nadiendev.malisisdoorsrevived.blockentity.SaloonDoorBlockEntity;
 import nadiendev.malisisdoorsrevived.door.DoorAppearance;
@@ -46,7 +47,7 @@ public class SaloonDoorBlock extends MalisisDoorBlock
 	}
 
 	@Override
-	protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity)
+	protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier, boolean isPrecise)
 	{
 		if (!(entity instanceof Player) || level.isClientSide())
 			return;

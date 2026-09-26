@@ -1,5 +1,7 @@
 package nadiendev.malisisdoorsrevived.blockentity;
 
+import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.level.storage.ValueInput;
 import nadiendev.malisisdoorsrevived.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -64,16 +66,16 @@ public class SaloonDoorBlockEntity extends DoorBlockEntity
 	}
 
 	@Override
-	protected void readSyncData(CompoundTag tag, HolderLookup.Provider registries)
+	protected void readSyncData(ValueInput input)
 	{
-		super.readSyncData(tag, registries);
-		openBackward = tag.getBoolean("backward");
+		super.readSyncData(input);
+		openBackward = input.getBooleanOr("backward", false);
 	}
 
 	@Override
-	protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries)
+	protected void saveAdditional(ValueOutput output)
 	{
-		super.saveAdditional(tag, registries);
-		tag.putBoolean("backward", openBackward);
+		super.saveAdditional(output);
+		output.putBoolean("backward", openBackward);
 	}
 }

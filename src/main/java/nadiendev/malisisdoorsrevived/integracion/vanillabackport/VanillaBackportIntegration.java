@@ -1,7 +1,7 @@
 package nadiendev.malisisdoorsrevived.integracion.vanillabackport;
 
 import nadiendev.malisisdoorsrevived.animated.DoorIntegration;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 
 public class VanillaBackportIntegration extends DoorIntegration
@@ -12,8 +12,8 @@ public class VanillaBackportIntegration extends DoorIntegration
 	}
 
 	@Override
-	public boolean animates(ResourceLocation id, Block block)
+	public boolean animates(Identifier id, Block block)
 	{
-		return id.getNamespace().equals(ResourceLocation.DEFAULT_NAMESPACE) && id.getPath().startsWith("pale_oak_") && isStandard(block);
+		return id.getNamespace().equals(Identifier.DEFAULT_NAMESPACE) && id.getPath().startsWith("pale_oak_") && isStandard(block);
 	}
 }

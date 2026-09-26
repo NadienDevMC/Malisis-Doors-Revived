@@ -1,9 +1,9 @@
 package nadiendev.malisisdoorsrevived.movement;
 
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
-import net.malisis.core.animation.Rotation;
-import net.malisis.core.animation.Transformation;
+import nadiendev.malisiscorerevived.animation.Rotation;
+import nadiendev.malisiscorerevived.animation.Transformation;
 import nadiendev.malisisdoorsrevived.blockentity.DoorBlockEntity;
 import nadiendev.malisisdoorsrevived.blockentity.FenceGateBlockEntity;
 import net.minecraft.world.phys.AABB;

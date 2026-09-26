@@ -1,6 +1,6 @@
 package nadiendev.malisisdoorsrevived.door;
 
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import nadiendev.malisisdoorsrevived.movement.IDoorMovement;
 import nadiendev.malisisdoorsrevived.sound.IDoorSound;

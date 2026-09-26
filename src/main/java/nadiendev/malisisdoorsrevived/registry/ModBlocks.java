@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import nadiendev.malisisdoorsrevived.MalisisDoors;
@@ -27,6 +28,9 @@ import nadiendev.malisisdoorsrevived.door.DoorDescriptor;
 import nadiendev.malisisdoorsrevived.door.DoorRegistry;
 import nadiendev.malisisdoorsrevived.door.RedstoneBehavior;
 import nadiendev.malisisdoorsrevived.sound.DoorSound;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -82,10 +86,19 @@ public class ModBlocks
 		vanillaDoor("dark_oak", () -> Blocks.DARK_OAK_DOOR, BlockSetType.DARK_OAK);
 		vanillaDoor("mangrove", () -> Blocks.MANGROVE_DOOR, BlockSetType.MANGROVE);
 		vanillaDoor("cherry", () -> Blocks.CHERRY_DOOR, BlockSetType.CHERRY);
+		vanillaDoor("pale_oak", () -> Blocks.PALE_OAK_DOOR, BlockSetType.PALE_OAK);
 		vanillaDoor("bamboo", () -> Blocks.BAMBOO_DOOR, BlockSetType.BAMBOO);
 		vanillaDoor("crimson", () -> Blocks.CRIMSON_DOOR, BlockSetType.CRIMSON);
 		vanillaDoor("warped", () -> Blocks.WARPED_DOOR, BlockSetType.WARPED);
 		vanillaDoor("iron", () -> Blocks.IRON_DOOR, BlockSetType.IRON);
+		vanillaDoor("copper", () -> Blocks.COPPER_DOOR, BlockSetType.COPPER);
+		vanillaDoor("exposed_copper", () -> Blocks.EXPOSED_COPPER_DOOR, BlockSetType.COPPER);
+		vanillaDoor("weathered_copper", () -> Blocks.WEATHERED_COPPER_DOOR, BlockSetType.COPPER);
+		vanillaDoor("oxidized_copper", () -> Blocks.OXIDIZED_COPPER_DOOR, BlockSetType.COPPER);
+		vanillaDoor("waxed_copper", () -> Blocks.WAXED_COPPER_DOOR, BlockSetType.COPPER);
+		vanillaDoor("waxed_exposed_copper", () -> Blocks.WAXED_EXPOSED_COPPER_DOOR, BlockSetType.COPPER);
+		vanillaDoor("waxed_weathered_copper", () -> Blocks.WAXED_WEATHERED_COPPER_DOOR, BlockSetType.COPPER);
+		vanillaDoor("waxed_oxidized_copper", () -> Blocks.WAXED_OXIDIZED_COPPER_DOOR, BlockSetType.COPPER);
 
 		vanillaTrapDoor("oak", () -> Blocks.OAK_TRAPDOOR, BlockSetType.OAK);
 		vanillaTrapDoor("spruce", () -> Blocks.SPRUCE_TRAPDOOR, BlockSetType.SPRUCE);
@@ -95,10 +108,19 @@ public class ModBlocks
 		vanillaTrapDoor("dark_oak", () -> Blocks.DARK_OAK_TRAPDOOR, BlockSetType.DARK_OAK);
 		vanillaTrapDoor("mangrove", () -> Blocks.MANGROVE_TRAPDOOR, BlockSetType.MANGROVE);
 		vanillaTrapDoor("cherry", () -> Blocks.CHERRY_TRAPDOOR, BlockSetType.CHERRY);
+		vanillaTrapDoor("pale_oak", () -> Blocks.PALE_OAK_TRAPDOOR, BlockSetType.PALE_OAK);
 		vanillaTrapDoor("bamboo", () -> Blocks.BAMBOO_TRAPDOOR, BlockSetType.BAMBOO);
 		vanillaTrapDoor("crimson", () -> Blocks.CRIMSON_TRAPDOOR, BlockSetType.CRIMSON);
 		vanillaTrapDoor("warped", () -> Blocks.WARPED_TRAPDOOR, BlockSetType.WARPED);
 		vanillaTrapDoor("iron", () -> Blocks.IRON_TRAPDOOR, BlockSetType.IRON);
+		vanillaTrapDoor("copper", () -> Blocks.COPPER_TRAPDOOR, BlockSetType.COPPER);
+		vanillaTrapDoor("exposed_copper", () -> Blocks.EXPOSED_COPPER_TRAPDOOR, BlockSetType.COPPER);
+		vanillaTrapDoor("weathered_copper", () -> Blocks.WEATHERED_COPPER_TRAPDOOR, BlockSetType.COPPER);
+		vanillaTrapDoor("oxidized_copper", () -> Blocks.OXIDIZED_COPPER_TRAPDOOR, BlockSetType.COPPER);
+		vanillaTrapDoor("waxed_copper", () -> Blocks.WAXED_COPPER_TRAPDOOR, BlockSetType.COPPER);
+		vanillaTrapDoor("waxed_exposed_copper", () -> Blocks.WAXED_EXPOSED_COPPER_TRAPDOOR, BlockSetType.COPPER);
+		vanillaTrapDoor("waxed_weathered_copper", () -> Blocks.WAXED_WEATHERED_COPPER_TRAPDOOR, BlockSetType.COPPER);
+		vanillaTrapDoor("waxed_oxidized_copper", () -> Blocks.WAXED_OXIDIZED_COPPER_TRAPDOOR, BlockSetType.COPPER);
 
 		vanillaFenceGate("oak", () -> Blocks.OAK_FENCE_GATE, WoodType.OAK);
 		vanillaFenceGate("spruce", () -> Blocks.SPRUCE_FENCE_GATE, WoodType.SPRUCE);
@@ -108,6 +130,7 @@ public class ModBlocks
 		vanillaFenceGate("dark_oak", () -> Blocks.DARK_OAK_FENCE_GATE, WoodType.DARK_OAK);
 		vanillaFenceGate("mangrove", () -> Blocks.MANGROVE_FENCE_GATE, WoodType.MANGROVE);
 		vanillaFenceGate("cherry", () -> Blocks.CHERRY_FENCE_GATE, WoodType.CHERRY);
+		vanillaFenceGate("pale_oak", () -> Blocks.PALE_OAK_FENCE_GATE, WoodType.PALE_OAK);
 		vanillaFenceGate("bamboo", () -> Blocks.BAMBOO_FENCE_GATE, WoodType.BAMBOO);
 		vanillaFenceGate("crimson", () -> Blocks.CRIMSON_FENCE_GATE, WoodType.CRIMSON);
 		vanillaFenceGate("warped", () -> Blocks.WARPED_FENCE_GATE, WoodType.WARPED);
@@ -128,11 +151,14 @@ public class ModBlocks
 		BlockBehaviour.Properties properties = BlockBehaviour.Properties	.of()
 																		.mapColor(vanilla.defaultMapColor())
 																		.strength(vanilla.defaultDestroyTime(), vanilla.getExplosionResistance())
-																		.noOcclusion();
+																		.noOcclusion()
+																		.overrideDescription(vanilla.getDescriptionId());
 		if (vanilla.defaultBlockState().requiresCorrectToolForDrops())
 			properties.requiresCorrectToolForDrops();
 		if (vanilla.defaultBlockState().ignitedByLava())
 			properties.ignitedByLava();
+		if (vanilla.defaultBlockState().isRandomlyTicking())
+			properties.randomTicks();
 		switch (kind)
 		{
 			case DOOR -> properties.pushReaction(PushReaction.DESTROY);
@@ -146,7 +172,7 @@ public class ModBlocks
 
 	private static void vanillaDoor(String name, Supplier<Block> vanilla, BlockSetType type)
 	{
-		DeferredBlock<MalisisDoorBlock> block = BLOCKS.register("animated_" + name + "_door", () -> animatedDoor(vanilla, type, copyProperties(vanilla.get(), Kind.DOOR)));
+		DeferredBlock<MalisisDoorBlock> block = BLOCKS.register("animated_" + name + "_door", id -> animatedDoor(vanilla, type, withId(id, copyProperties(vanilla.get(), Kind.DOOR))));
 		DOORS.add(block);
 		VANILLA_COPIES.add(new VanillaCopy(vanilla, block));
 	}
@@ -154,7 +180,7 @@ public class ModBlocks
 	private static void vanillaTrapDoor(String name, Supplier<Block> vanilla, BlockSetType type)
 	{
 		DeferredBlock<MalisisTrapDoorBlock> block = BLOCKS.register("animated_" + name + "_trapdoor",
-																	() -> animatedTrapDoor(vanilla, type, copyProperties(vanilla.get(), Kind.TRAPDOOR)));
+																	id -> animatedTrapDoor(vanilla, type, withId(id, copyProperties(vanilla.get(), Kind.TRAPDOOR))));
 		TRAPDOORS.add(block);
 		VANILLA_COPIES.add(new VanillaCopy(vanilla, block));
 	}
@@ -162,7 +188,7 @@ public class ModBlocks
 	private static void vanillaFenceGate(String name, Supplier<Block> vanilla, WoodType type)
 	{
 		DeferredBlock<MalisisFenceGateBlock> block = BLOCKS.register("animated_" + name + "_fence_gate",
-																	() -> animatedFenceGate(vanilla, type, copyProperties(vanilla.get(), Kind.FENCE_GATE)));
+																	id -> animatedFenceGate(vanilla, type, withId(id, copyProperties(vanilla.get(), Kind.FENCE_GATE))));
 		FENCE_GATES.add(block);
 		VANILLA_COPIES.add(new VanillaCopy(vanilla, block));
 	}
@@ -194,18 +220,18 @@ public class ModBlocks
 		return new MalisisFenceGateBlock(type, properties, desc, new DoorAppearance.Copy(vanilla), () -> vanilla.get().asItem());
 	}
 
-	public static Block createAnimatedCopy(Block original)
+	public static Block createAnimatedCopy(Identifier id, Block original)
 	{
 		Supplier<Block> supplier = () -> original;
 		return switch (original)
 		{
-			case DoorBlock door -> animatedDoor(supplier, door.type(), copyProperties(original, Kind.DOOR).noLootTable());
+			case DoorBlock door -> animatedDoor(supplier, door.type(), withId(id, copyProperties(original, Kind.DOOR).noLootTable()));
 			case TrapDoorBlock trapDoor -> animatedTrapDoor(supplier,
 															ObfuscationReflectionHelper.getPrivateValue(TrapDoorBlock.class, trapDoor, "type"),
-															copyProperties(original, Kind.TRAPDOOR).noLootTable());
+															withId(id, copyProperties(original, Kind.TRAPDOOR).noLootTable()));
 			case FenceGateBlock gate -> animatedFenceGate(	supplier,
 															ObfuscationReflectionHelper.getPrivateValue(FenceGateBlock.class, gate, "type"),
-															copyProperties(original, Kind.FENCE_GATE).noLootTable());
+															withId(id, copyProperties(original, Kind.FENCE_GATE).noLootTable()));
 			default -> throw new IllegalArgumentException(original + " is not a door, a trapdoor or a fence gate");
 		};
 	}
@@ -247,6 +273,11 @@ public class ModBlocks
 	//#end Animated vanilla doors, trapdoors and fence gates
 
 	//#region MalisisDoors doors
+	private static BlockBehaviour.Properties withId(Identifier id, BlockBehaviour.Properties properties)
+	{
+		return properties.setId(ResourceKey.create(Registries.BLOCK, id));
+	}
+
 	private static BlockBehaviour.Properties wood(float hardness)
 	{
 		return BlockBehaviour.Properties.of()
@@ -271,7 +302,7 @@ public class ModBlocks
 
 	private static DeferredBlock<MalisisDoorBlock> door(String name, BlockSetType type, BlockBehaviour.Properties properties, DoorDescriptor desc, DoorAppearance appearance)
 	{
-		DeferredBlock<MalisisDoorBlock> block = BLOCKS.register(name, () -> new MalisisDoorBlock(type, properties, desc, appearance));
+		DeferredBlock<MalisisDoorBlock> block = BLOCKS.register(name, id -> new MalisisDoorBlock(type, withId(id, properties), desc, appearance));
 		DOORS.add(block);
 		ITEM_DOORS.add(block);
 		return block;
@@ -351,8 +382,7 @@ public class ModBlocks
 																										MalisisDoors.id("block/vertical_hatch")));
 
 	public static final DeferredBlock<SaloonDoorBlock> SALOON_DOOR = registerItemDoor("saloon_door",
-																						() -> new SaloonDoorBlock(	BlockSetType.OAK,
-																													wood(2.5F),
+																						id -> new SaloonDoorBlock(BlockSetType.OAK, withId(id, wood(2.5F)),
 																													new DoorDescriptor().setMovement(DoorRegistry.SALOON_DOOR)
 																																		.setSound(DoorRegistry.SILENT_SOUND)
 																																		.setOpeningTime(40),
@@ -360,13 +390,12 @@ public class ModBlocks
 																																			MalisisDoors.id("block/saloon_door"))));
 
 	public static final DeferredBlock<CustomDoorBlock> CUSTOM_DOOR = registerItemDoor("custom_door",
-																						() -> new CustomDoorBlock(	BlockSetType.OAK,
-																													wood(2.0F).mapColor(MapColor.STONE),
+																						id -> new CustomDoorBlock(BlockSetType.OAK, withId(id, wood(2.0F).mapColor(MapColor.STONE)),
 																													new DoorDescriptor()));
 
-	private static <T extends Block> DeferredBlock<T> registerItemDoor(String name, Supplier<T> supplier)
+	private static <T extends Block> DeferredBlock<T> registerItemDoor(String name, Function<Identifier, T> factory)
 	{
-		DeferredBlock<T> block = BLOCKS.register(name, supplier);
+		DeferredBlock<T> block = BLOCKS.register(name, factory);
 		ITEM_DOORS.add(block);
 		return block;
 	}
@@ -374,8 +403,7 @@ public class ModBlocks
 
 	//#region Trapdoors and fence gates
 	public static final DeferredBlock<MalisisTrapDoorBlock> SLIDING_TRAPDOOR = BLOCKS.register(	"sliding_trapdoor",
-																								() -> new MalisisTrapDoorBlock(	BlockSetType.IRON,
-																																metal(4.0F).sound(SoundType.METAL).pushReaction(PushReaction.NORMAL).isValidSpawn(Blocks::never),
+																								id -> new MalisisTrapDoorBlock(BlockSetType.IRON, withId(id, metal(4.0F).sound(SoundType.METAL).pushReaction(PushReaction.NORMAL).isValidSpawn(Blocks::never)),
 																																new DoorDescriptor().setMovement(DoorRegistry.SLIDING_TRAPDOOR)
 																																					.setSound(DoorRegistry.PNEUMATIC_SOUND)
 																																					.setOpeningTime(12)
@@ -384,8 +412,7 @@ public class ModBlocks
 																																null));
 
 	public static final DeferredBlock<MalisisFenceGateBlock> CAMO_FENCE_GATE = BLOCKS.register(	"camo_fence_gate",
-																								() -> new MalisisFenceGateBlock(WoodType.OAK,
-																																wood(2.0F).strength(2.0F, 3.0F).forceSolidOn().pushReaction(PushReaction.NORMAL),
+																								id -> new MalisisFenceGateBlock(WoodType.OAK, withId(id, wood(2.0F).strength(2.0F, 3.0F).forceSolidOn().pushReaction(PushReaction.NORMAL)),
 																																new DoorDescriptor().setMovement(DoorRegistry.FENCE_GATE)
 																																					.setSound(DoorRegistry.FENCE_GATE_SOUND),
 																																DoorAppearance.SELF,
@@ -399,14 +426,14 @@ public class ModBlocks
 	//#end Trapdoors and fence gates
 
 	//#region Other doors
-	public static final DeferredBlock<GarageDoorBlock> GARAGE_DOOR = BLOCKS.register("garage_door", () -> new GarageDoorBlock(wood(2.0F)));
+	public static final DeferredBlock<GarageDoorBlock> GARAGE_DOOR = BLOCKS.register("garage_door", id -> new GarageDoorBlock(withId(id, wood(2.0F))));
 
 	public static final DeferredBlock<BigDoorBlock> CARRIAGE_DOOR = BLOCKS.register("carriage_door",
-																					() -> new BigDoorBlock(	wood(5.0F).strength(5.0F, 10.0F),
+																					id -> new BigDoorBlock(withId(id, wood(5.0F).strength(5.0F, 10.0F)),
 																											new DoorAppearance.Obj(	MalisisDoors.id("models/big_door.obj"),
 																																	MalisisDoors.id("block/carriage_door"))));
 	public static final DeferredBlock<BigDoorBlock> MEDIEVAL_DOOR = BLOCKS.register("medieval_door",
-																					() -> new BigDoorBlock(	wood(5.0F).strength(5.0F, 10.0F),
+																					id -> new BigDoorBlock(withId(id, wood(5.0F).strength(5.0F, 10.0F)),
 																											new DoorAppearance.Obj(	MalisisDoors.id("models/big_door.obj"),
 																																	MalisisDoors.id("block/medieval_door"))));
 
@@ -419,6 +446,7 @@ public class ModBlocks
 	public static final DeferredBlock<Door3x3Block> BIG_DOOR_MANGROVE_3X3 = door3x3("mangrove", wood(3.0F).strength(3.0F, 10.0F).mapColor(MapColor.COLOR_RED));
 	public static final DeferredBlock<Door3x3Block> BIG_DOOR_CHERRY_3X3 = door3x3("cherry", wood(3.0F).strength(3.0F, 10.0F).mapColor(MapColor.TERRACOTTA_WHITE).sound(SoundType.CHERRY_WOOD));
 	public static final DeferredBlock<Door3x3Block> BIG_DOOR_BAMBOO_3X3 = door3x3("bamboo", wood(3.0F).strength(3.0F, 10.0F).mapColor(MapColor.COLOR_YELLOW).sound(SoundType.BAMBOO_WOOD));
+	public static final DeferredBlock<Door3x3Block> BIG_DOOR_PALE_OAK_3X3 = door3x3("pale_oak", wood(3.0F).strength(3.0F, 10.0F).mapColor(MapColor.QUARTZ));
 	public static final DeferredBlock<Door3x3Block> BIG_DOOR_CRIMSON_3X3 = door3x3("crimson", netherWood(MapColor.CRIMSON_STEM));
 	public static final DeferredBlock<Door3x3Block> BIG_DOOR_WARPED_3X3 = door3x3("warped", netherWood(MapColor.WARPED_STEM));
 	public static final DeferredBlock<Door3x3Block> BIG_DOOR_IRON_3X3 = door3x3("iron", true);
@@ -449,7 +477,7 @@ public class ModBlocks
 	{
 		String name = "big_door_" + type + "_3x3";
 		DeferredBlock<Door3x3Block> block = BLOCKS.register(name,
-															() -> new Door3x3Block(	properties,
+															id -> new Door3x3Block(withId(id, properties),
 																					metal,
 																					new DoorAppearance.Textured(MalisisDoors.id("block/" + name))));
 		DOORS_3X3.add(block);
@@ -457,38 +485,38 @@ public class ModBlocks
 	}
 
 	public static final DeferredBlock<RustyHatchBlock> RUSTY_HATCH = BLOCKS.register(	"rusty_hatch",
-																						() -> new RustyHatchBlock(	metal(3.0F).strength(3.0F, 10000.0F).sound(SoundType.METAL),
+																						id -> new RustyHatchBlock(withId(id, metal(3.0F).strength(3.0F, 10000.0F).sound(SoundType.METAL)),
 																													new DoorAppearance.Obj(	MalisisDoors.id("models/rusty_hatch.obj"),
 																																			MalisisDoors.id("block/rusty_hatch"))));
 
 	public static final DeferredBlock<LadderBlock> RUSTY_LADDER = BLOCKS.register(	"rusty_ladder",
-																						() -> new LadderBlock(BlockBehaviour.Properties.of()
+																						id -> new LadderBlock(withId(id, BlockBehaviour.Properties.of()
 																																			.mapColor(MapColor.METAL)
 																																			.strength(2.0F)
 																																			.sound(SoundType.LADDER)
 																																			.noOcclusion()
-																																			.pushReaction(PushReaction.DESTROY)));
+																																			.pushReaction(PushReaction.DESTROY))));
 
 	public static final DeferredBlock<HitechDoorBlock> HITECH_DOOR = BLOCKS.register(	"hitech_door",
-																						() -> new HitechDoorBlock(	metal(4.0F).sound(SoundType.METAL),
+																						id -> new HitechDoorBlock(withId(id, metal(4.0F).sound(SoundType.METAL)),
 																													new DoorAppearance.Obj(	MalisisDoors.id("models/hitechdoor.obj"),
 																																			MalisisDoors.id("block/hitechdoor"))));
 
 	public static final DeferredBlock<ForcefieldBlock> FORCEFIELD = BLOCKS.register("forcefield",
-																					() -> new ForcefieldBlock(BlockBehaviour.Properties	.of()
+																					id -> new ForcefieldBlock(withId(id, BlockBehaviour.Properties	.of()
 																																		.mapColor(MapColor.NONE)
 																																		.strength(-1.0F, 3600000.0F)
 																																		.noLootTable()
 																																		.sound(SoundType.ANVIL)
 																																		.lightLevel(s -> 7)
-																																		.pushReaction(PushReaction.BLOCK)));
+																																		.pushReaction(PushReaction.BLOCK))));
 
 	public static final DeferredBlock<DoorFactoryBlock> DOOR_FACTORY = BLOCKS.register(	"door_factory",
-																						() -> new DoorFactoryBlock(BlockBehaviour.Properties.of()
+																						id -> new DoorFactoryBlock(withId(id, BlockBehaviour.Properties.of()
 																																			.mapColor(MapColor.METAL)
 																																			.strength(3.5F)
 																																			.requiresCorrectToolForDrops()
-																																			.sound(SoundType.METAL)));
+																																			.sound(SoundType.METAL))));
 
 	static
 	{
@@ -501,10 +529,10 @@ public class ModBlocks
 	//#end Other doors
 
 	public static final DeferredBlock<PlayerSensorBlock> PLAYER_SENSOR = BLOCKS.register(	"player_sensor",
-																							() -> new PlayerSensorBlock(BlockBehaviour.Properties	.of()
+																							id -> new PlayerSensorBlock(withId(id, BlockBehaviour.Properties	.of()
 																																				.mapColor(MapColor.METAL)
-																																				.noCollission()
+																																				.noCollision()
 																																				.strength(0.5F)
 																																				.sound(SoundType.METAL)
-																																				.pushReaction(PushReaction.DESTROY)));
+																																				.pushReaction(PushReaction.DESTROY))));
 }

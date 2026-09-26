@@ -1,6 +1,6 @@
 package nadiendev.malisisdoorsrevived.integracion.jade;
 
-import net.malisis.core.multiblock.MultiBlockHelper;
+import nadiendev.malisiscorerevived.multiblock.MultiBlockHelper;
 import nadiendev.malisisdoorsrevived.door.DoorAppearance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;

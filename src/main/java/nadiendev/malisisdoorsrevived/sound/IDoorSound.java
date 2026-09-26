@@ -1,6 +1,6 @@
 package nadiendev.malisisdoorsrevived.sound;
 
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import nadiendev.malisisdoorsrevived.door.DoorState;
 import net.minecraft.sounds.SoundEvent;

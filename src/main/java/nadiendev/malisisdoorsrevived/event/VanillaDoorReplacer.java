@@ -1,8 +1,9 @@
 package nadiendev.malisisdoorsrevived.event;
 
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import nadiendev.malisisdoorsrevived.config.MalisisDoorsConfig;
+import nadiendev.malisisdoorsrevived.door.DoorAppearance;
 import nadiendev.malisisdoorsrevived.door.IDoorBlock;
 import nadiendev.malisisdoorsrevived.door.RedstoneBehavior;
 import nadiendev.malisisdoorsrevived.animated.AnimatedCopies;
@@ -130,9 +131,11 @@ public class VanillaDoorReplacer
 		//let the players place blocks against doors when sneaking
 		if (player.isSecondaryUseActive() && !player.getItemInHand(event.getHand()).isEmpty())
 			return;
+		if (replacement instanceof IDoorBlock door && door.getAppearance() instanceof DoorAppearance.Copy copy && copy.isChangedBy(player.getItemInHand(event.getHand())))
+			return;
 
 		event.setCanceled(true);
-		event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide()));
+		event.setCancellationResult(InteractionResult.SUCCESS);
 		if (level.isClientSide() || event.getHand() != InteractionHand.MAIN_HAND)
 			return;
 

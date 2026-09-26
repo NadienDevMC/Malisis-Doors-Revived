@@ -1,11 +1,14 @@
 package nadiendev.malisisdoorsrevived.blockentity;
 
+import net.minecraft.core.component.DataComponentGetter;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.level.storage.ValueInput;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
-import net.malisis.core.util.AABBUtils;
+import nadiendev.malisiscorerevived.util.AABBUtils;
 import nadiendev.malisisdoorsrevived.block.MultiBlockDoorBlock;
 import nadiendev.malisisdoorsrevived.registry.ModBlockEntities;
 import nadiendev.malisisdoorsrevived.registry.ModDataComponents;
@@ -13,7 +16,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -130,23 +132,21 @@ public class MultiBlockDoorBlockEntity extends DoorBlockEntity
 	}
 
 	@Override
-	protected void readSyncData(CompoundTag tag, HolderLookup.Provider registries)
+	protected void readSyncData(ValueInput input)
 	{
-		super.readSyncData(tag, registries);
-		if (tag.contains("frame"))
-			BlockState.CODEC.parse(NbtOps.INSTANCE, tag.get("frame")).result().ifPresent(s -> frameState = s);
+		super.readSyncData(input);
+		input.read("frame", BlockState.CODEC).ifPresent(s -> frameState = s);
 	}
 
 	@Override
-	protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries)
+	protected void saveAdditional(ValueOutput output)
 	{
-		super.saveAdditional(tag, registries);
-		if (frameState != null)
-			BlockState.CODEC.encodeStart(NbtOps.INSTANCE, frameState).result().ifPresent(t -> tag.put("frame", t));
+		super.saveAdditional(output);
+		output.storeNullable("frame", BlockState.CODEC, frameState);
 	}
 
 	@Override
-	protected void applyImplicitComponents(DataComponentInput input)
+	protected void applyImplicitComponents(DataComponentGetter input)
 	{
 		super.applyImplicitComponents(input);
 		BlockState frame = input.get(ModDataComponents.FRAME_STATE.get());
@@ -164,9 +164,9 @@ public class MultiBlockDoorBlockEntity extends DoorBlockEntity
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public void removeComponentsFromTag(CompoundTag tag)
+	public void removeComponentsFromTag(ValueOutput output)
 	{
-		super.removeComponentsFromTag(tag);
-		tag.remove("frame");
+		super.removeComponentsFromTag(output);
+		output.discard("frame");
 	}
 }

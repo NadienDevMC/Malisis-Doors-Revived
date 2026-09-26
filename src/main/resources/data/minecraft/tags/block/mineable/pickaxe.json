@@ -14,6 +14,22 @@
     "malisisdoors:rusty_hatch",
     "malisisdoors:rusty_ladder",
     "malisisdoors:hitech_door",
-    "malisisdoors:door_factory"
+    "malisisdoors:door_factory",
+    "malisisdoors:animated_copper_door",
+    "malisisdoors:animated_exposed_copper_door",
+    "malisisdoors:animated_weathered_copper_door",
+    "malisisdoors:animated_oxidized_copper_door",
+    "malisisdoors:animated_waxed_copper_door",
+    "malisisdoors:animated_waxed_exposed_copper_door",
+    "malisisdoors:animated_waxed_weathered_copper_door",
+    "malisisdoors:animated_waxed_oxidized_copper_door",
+    "malisisdoors:animated_copper_trapdoor",
+    "malisisdoors:animated_exposed_copper_trapdoor",
+    "malisisdoors:animated_weathered_copper_trapdoor",
+    "malisisdoors:animated_oxidized_copper_trapdoor",
+    "malisisdoors:animated_waxed_copper_trapdoor",
+    "malisisdoors:animated_waxed_exposed_copper_trapdoor",
+    "malisisdoors:animated_waxed_weathered_copper_trapdoor",
+    "malisisdoors:animated_waxed_oxidized_copper_trapdoor"
   ]
 }

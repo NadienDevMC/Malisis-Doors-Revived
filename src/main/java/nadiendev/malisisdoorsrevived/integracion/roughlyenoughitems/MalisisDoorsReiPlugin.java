@@ -10,6 +10,7 @@ import me.shedaniel.rei.forge.REIPluginClient;
 import me.shedaniel.rei.plugin.common.displays.DefaultInformationDisplay;
 import me.shedaniel.rei.plugin.common.displays.crafting.DefaultCustomDisplay;
 import nadiendev.malisisdoorsrevived.recipe.RecipeViewerContent;
+import net.minecraft.world.item.ItemStack;
 
 @REIPluginClient
 public class MalisisDoorsReiPlugin implements REIClientPlugin
@@ -18,10 +19,10 @@ public class MalisisDoorsReiPlugin implements REIClientPlugin
 	public void registerDisplays(DisplayRegistry registry)
 	{
 		for (RecipeViewerContent.Info info : RecipeViewerContent.infos())
-			registry.add(DefaultInformationDisplay.createFromEntries(EntryIngredients.of(info.item()), info.item().asItem().getDescription()).line(info.text()));
+			registry.add(DefaultInformationDisplay.createFromEntries(EntryIngredients.of(info.item()), new ItemStack(info.item()).getHoverName()).line(info.text()));
 
-		for (RecipeViewerContent.BigDoorExample example : RecipeViewerContent.bigDoorExamples(registry.getRecipeManager()))
-			registry.add(DefaultCustomDisplay.simple(	example.inputs().stream().map(EntryIngredients::ofIngredient).toList(),
+		for (RecipeViewerContent.BigDoorExample example : RecipeViewerContent.bigDoorExamples())
+			registry.add(new DefaultCustomDisplay(	example.inputs().stream().map(EntryIngredients::ofIngredient).toList(),
 														List.of(EntryIngredients.ofItemStacks(List.of(example.result()))),
 														Optional.of(example.id())));
 	}

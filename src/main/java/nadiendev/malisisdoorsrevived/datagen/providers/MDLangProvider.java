@@ -138,8 +138,6 @@ public class MDLangProvider implements DataProvider
 		add("malisisdoors.configuration.mcwfences", "Macaw's Fences and Walls");
 		add("malisisdoors.configuration.manyideas_doors", "ManyIdeas Doors");
 		add("malisisdoors.configuration.vanillabackport", "Vanilla Backport");
-		add("malisisdoors.configuration.create", "Create");
-		add("malisisdoors.configuration.ad_astra", "Ad Astra");
 		add("malisisdoors.configuration.twilightforest", "The Twilight Forest");
 		add("malisisdoors.configuration.malum", "Malum");
 		add("malisisdoors.configuration.mekanismadditions", "Mekanism Additions");
@@ -175,6 +173,7 @@ public class MDLangProvider implements DataProvider
 		add("block.malisisdoors.big_door_mangrove_3x3", "Large Mangrove Double Doors");
 		add("block.malisisdoors.big_door_cherry_3x3", "Large Cherry Double Doors");
 		add("block.malisisdoors.big_door_bamboo_3x3", "Large Bamboo Double Doors");
+		add("block.malisisdoors.big_door_pale_oak_3x3", "Large Pale Oak Double Doors");
 		add("block.malisisdoors.big_door_crimson_3x3", "Large Crimson Double Doors");
 		add("block.malisisdoors.big_door_warped_3x3", "Large Warped Double Doors");
 		add("block.malisisdoors.big_door_iron_3x3", "Large Iron Double Doors");
@@ -302,6 +301,7 @@ public class MDLangProvider implements DataProvider
 		add("block.malisisdoors.big_door_mangrove_3x3", "Gran puerta doble de mangle");
 		add("block.malisisdoors.big_door_cherry_3x3", "Gran puerta doble de cerezo");
 		add("block.malisisdoors.big_door_bamboo_3x3", "Gran puerta doble de bambú");
+		add("block.malisisdoors.big_door_pale_oak_3x3", "Gran puerta doble de roble pálido");
 		add("block.malisisdoors.big_door_crimson_3x3", "Gran puerta doble carmesí");
 		add("block.malisisdoors.big_door_warped_3x3", "Gran puerta doble distorsionada");
 		add("block.malisisdoors.big_door_iron_3x3", "Gran puerta doble de hierro");
@@ -366,14 +366,12 @@ public class MDLangProvider implements DataProvider
 		add("item.malisisdoors.forcefield_controller.help", "Usalo en dos esquinas para crear un campo de fuerza. Usalo sobre un campo de fuerza para activarlo o desactivarlo, agachado para destruirlo.");
 		add("item.malisisdoors.forcefield_controller.selection", "Primera esquina: %s");
 		add("item.malisisdoors.rusty_handle", "Manija oxidada");
-		add("malisisdoors.configuration.ad_astra", "Ad Astra");
 		add("malisisdoors.configuration.allthemodium", "Allthemodium");
 		add("malisisdoors.configuration.animateVanillaDoors", "Animar las puertas vanilla");
 		add("malisisdoors.configuration.animateVanillaFenceGates", "Animar las puertas de valla vanilla");
 		add("malisisdoors.configuration.animateVanillaTrapdoors", "Animar las trampillas vanilla");
 		add("malisisdoors.configuration.ars_nouveau", "Ars Nouveau");
 		add("malisisdoors.configuration.chipped", "Chipped");
-		add("malisisdoors.configuration.create", "Create");
 		add("malisisdoors.configuration.enchanted", "Enchanted: Witchcraft");
 		add("malisisdoors.configuration.enderio", "Ender IO");
 		add("malisisdoors.configuration.farmersdelight", "Farmer's Delight");
@@ -578,6 +576,7 @@ public class MDLangProvider implements DataProvider
 		add("block.malisisdoors.big_door_mangrove_3x3", "Grande double porte en bois de palétuvier");
 		add("block.malisisdoors.big_door_cherry_3x3", "Grande double porte en bois de cerisier");
 		add("block.malisisdoors.big_door_bamboo_3x3", "Grande double porte en bambou");
+		add("block.malisisdoors.big_door_pale_oak_3x3", "Grande double porte en bois de chêne pâle");
 		add("block.malisisdoors.big_door_crimson_3x3", "Grande double porte carmin");
 		add("block.malisisdoors.big_door_warped_3x3", "Grande double porte biscornue");
 		add("block.malisisdoors.big_door_iron_3x3", "Grande double porte en fer");

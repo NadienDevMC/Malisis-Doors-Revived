@@ -1,34 +1,29 @@
 package nadiendev.malisisdoorsrevived.client.renderer;
 
+import nadiendev.malisiscorerevived.client.render.SimpleBlockEntityRenderer;
 import java.util.List;
 
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import net.malisis.core.client.render.RenderUtils;
+import nadiendev.malisiscorerevived.client.render.RenderUtils;
 import nadiendev.malisisdoorsrevived.block.MalisisFenceGateBlock;
 import nadiendev.malisisdoorsrevived.blockentity.FenceGateBlockEntity;
 import nadiendev.malisisdoorsrevived.door.DoorAppearance;
 import nadiendev.malisisdoorsrevived.movement.DoorPart;
 import nadiendev.malisisdoorsrevived.registry.ModBlocks;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.resources.model.geometry.BakedQuad;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.client.RenderTypeHelper;
-import net.neoforged.neoforge.client.model.data.ModelData;
 
 /**
  * Renderer of the animated fence gates.<br>
@@ -37,17 +32,15 @@ import net.neoforged.neoforge.client.model.data.ModelData;
  *
  * @author Ordinastie
  */
-public class FenceGateRenderer implements BlockEntityRenderer<FenceGateBlockEntity>
+public class FenceGateRenderer extends SimpleBlockEntityRenderer<FenceGateBlockEntity>
 {
-	private static final Direction[] DIRECTIONS_AND_NULL = { Direction.DOWN, Direction.UP, Direction.NORTH, Direction.SOUTH, Direction.WEST,
-			Direction.EAST, null };
 	private static final float POST = 2 / 16F + 0.001F;
 
 	public FenceGateRenderer(BlockEntityRendererProvider.Context context)
 	{}
 
 	@Override
-	public void render(FenceGateBlockEntity be, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay)
+	protected void render(FenceGateBlockEntity be, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay)
 	{
 		BlockState state = be.getBlockState();
 		if (!(state.getBlock() instanceof MalisisFenceGateBlock gate))
@@ -57,7 +50,8 @@ public class FenceGateRenderer implements BlockEntityRenderer<FenceGateBlockEnti
 		BlockState modelState = modelBlock	.defaultBlockState()
 											.setValue(FenceGateBlock.FACING, Direction.SOUTH)
 											.setValue(FenceGateBlock.IN_WALL, state.getValue(FenceGateBlock.IN_WALL));
-		BakedModel model = RenderUtils.getModel(modelState);
+		List<BakedQuad> quads = RenderUtils.getQuads(modelState);
+		VertexConsumer consumer = buffer.getBuffer(RenderUtils.blockAtlasType(false));
 
 		Level level = be.getLevel();
 		BlockPos pos = be.getBlockPos();
@@ -71,27 +65,14 @@ public class FenceGateRenderer implements BlockEntityRenderer<FenceGateBlockEnti
 			DoorRenderHelper.toCorner(poseStack);
 			PoseStack.Pose pose = poseStack.last();
 
-			RandomSource random = RandomSource.create();
-			for (RenderType renderType : model.getRenderTypes(modelState, RandomSource.create(42), ModelData.EMPTY))
+			for (BakedQuad quad : quads)
 			{
-				VertexConsumer consumer = buffer.getBuffer(RenderTypeHelper.getEntityRenderType(renderType, false));
-				for (Direction side : DIRECTIONS_AND_NULL)
-				{
-					random.setSeed(42L);
-					List<BakedQuad> quads = model.getQuads(modelState, side, random, ModelData.EMPTY, renderType);
-					for (BakedQuad quad : quads)
-					{
-						if (getPart(quad) != part)
-							continue;
-						if (camoSprite != null)
-						{
-							float r = (camoColor >> 16 & 255) / 255F, g = (camoColor >> 8 & 255) / 255F, b = (camoColor & 255) / 255F;
-							consumer.putBulkData(pose, RenderUtils.retexture(quad, camoSprite), r, g, b, 1, packedLight, packedOverlay, false);
-						}
-						else
-							RenderUtils.putQuad(pose, consumer, quad, modelState, level, pos, packedLight, packedOverlay, 1);
-					}
-				}
+				if (getPart(quad) != part)
+					continue;
+				if (camoSprite != null)
+					RenderUtils.putQuad(pose, consumer, RenderUtils.retexture(quad, camoSprite), camoColor, packedLight, packedOverlay);
+				else
+					RenderUtils.putQuad(pose, consumer, quad, modelState, level, pos, packedLight, packedOverlay, 1);
 			}
 			DoorRenderHelper.end(poseStack);
 		}
@@ -133,7 +114,7 @@ public class FenceGateRenderer implements BlockEntityRenderer<FenceGateBlockEnti
 		BlockState state2 = getSideState(be, side.getOpposite());
 		if (state1 == null || state2 == null || state1 != state2 || state1.isAir() || state1.getBlock() instanceof FenceGateBlock)
 			return null;
-		if (!state1.isSolidRender(level, be.getBlockPos().relative(side)))
+		if (!state1.isSolidRender())
 			return null;
 		return state1;
 	}

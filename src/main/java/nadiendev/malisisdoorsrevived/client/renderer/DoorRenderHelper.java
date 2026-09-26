@@ -1,12 +1,12 @@
 package nadiendev.malisisdoorsrevived.client.renderer;
 
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.malisis.core.animation.Transformable;
-import net.malisis.core.animation.Transformation;
-import net.malisis.core.util.DirectionUtils;
+import nadiendev.malisiscorerevived.animation.Transformable;
+import nadiendev.malisiscorerevived.animation.Transformation;
+import nadiendev.malisiscorerevived.util.DirectionUtils;
 import nadiendev.malisisdoorsrevived.blockentity.DoorBlockEntity;
 import nadiendev.malisisdoorsrevived.movement.DoorPart;
 import nadiendev.malisisdoorsrevived.movement.IDoorMovement;

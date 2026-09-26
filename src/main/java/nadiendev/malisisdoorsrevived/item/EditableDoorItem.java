@@ -1,5 +1,7 @@
 package nadiendev.malisisdoorsrevived.item;
 
+import java.util.function.Consumer;
+import net.minecraft.world.item.component.TooltipDisplay;
 import java.util.List;
 
 import net.minecraft.network.chat.Component;
@@ -21,7 +23,7 @@ public class EditableDoorItem extends DoubleHighBlockItem
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag)
+	public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag)
 	{
 		DoorItemTooltips.appendSettings(stack, tooltip);
 	}

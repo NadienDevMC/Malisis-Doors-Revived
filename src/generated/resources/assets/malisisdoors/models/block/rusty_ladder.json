@@ -278,7 +278,6 @@
       ]
     }
   ],
-  "render_type": "minecraft:cutout",
   "textures": {
     "particle": "malisisdoors:block/rusty_hatch_handle",
     "texture": "malisisdoors:block/rusty_hatch_handle"

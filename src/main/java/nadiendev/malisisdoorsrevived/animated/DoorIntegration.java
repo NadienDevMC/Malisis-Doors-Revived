@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 import java.util.Set;
 
 import nadiendev.malisisdoorsrevived.door.IDoorBlock;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.EntityBlock;
@@ -45,7 +45,7 @@ public abstract class DoorIntegration
 		return name;
 	}
 
-	public boolean animates(ResourceLocation id, Block block)
+	public boolean animates(Identifier id, Block block)
 	{
 		return id.getNamespace().equals(modId) && isStandard(block);
 	}

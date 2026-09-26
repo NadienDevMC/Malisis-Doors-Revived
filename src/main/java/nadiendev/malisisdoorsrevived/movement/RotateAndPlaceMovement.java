@@ -1,10 +1,10 @@
 package nadiendev.malisisdoorsrevived.movement;
 
-import net.malisis.core.animation.ChainedTransformation;
-import net.malisis.core.animation.Rotation;
-import net.malisis.core.animation.Transformation;
-import net.malisis.core.animation.Translation;
-import net.malisis.core.util.AABBUtils;
+import nadiendev.malisiscorerevived.animation.ChainedTransformation;
+import nadiendev.malisiscorerevived.animation.Rotation;
+import nadiendev.malisiscorerevived.animation.Transformation;
+import nadiendev.malisiscorerevived.animation.Translation;
+import nadiendev.malisiscorerevived.util.AABBUtils;
 import nadiendev.malisisdoorsrevived.blockentity.DoorBlockEntity;
 import net.minecraft.world.phys.AABB;
 

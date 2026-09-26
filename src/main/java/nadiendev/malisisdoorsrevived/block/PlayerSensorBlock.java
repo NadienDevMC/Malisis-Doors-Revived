@@ -1,6 +1,7 @@
 package nadiendev.malisisdoorsrevived.block;
 
-import javax.annotation.Nullable;
+import net.minecraft.world.level.ScheduledTickAccess;
+import org.jspecify.annotations.Nullable;
 
 import com.mojang.serialization.MapCodec;
 
@@ -98,11 +99,11 @@ public class PlayerSensorBlock extends DirectionalBlock
 	}
 
 	@Override
-	protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos)
+	protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random)
 	{
 		if (direction == state.getValue(FACING).getOpposite() && !state.canSurvive(level, pos))
 			return Blocks.AIR.defaultBlockState();
-		return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
+		return super.updateShape(state, level, ticks, pos, direction, neighborPos, neighborState, random);
 	}
 
 	@Override
@@ -182,11 +183,10 @@ public class PlayerSensorBlock extends DirectionalBlock
 	}
 
 	@Override
-	protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston)
+	protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean movedByPiston)
 	{
-		if (!movedByPiston && !state.is(newState.getBlock()) && state.getValue(POWERED))
+		if (!movedByPiston && state.getValue(POWERED))
 			updateNeighbours(state, level, pos);
-		super.onRemove(state, level, pos, newState, movedByPiston);
 	}
 
 	private void updateNeighbours(BlockState state, Level level, BlockPos pos)

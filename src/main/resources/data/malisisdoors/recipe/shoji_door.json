@@ -7,12 +7,8 @@
     "AB"
   ],
   "key": {
-    "A": {
-      "tag": "minecraft:planks"
-    },
-    "B": {
-      "item": "minecraft:paper"
-    }
+    "A": "#minecraft:planks",
+    "B": "minecraft:paper"
   },
   "result": {
     "id": "malisisdoors:shoji_door",

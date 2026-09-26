@@ -7,14 +7,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import nadiendev.malisisdoorsrevived.MalisisDoors;
-import nadiendev.malisisdoorsrevived.integracion.ad_astra.AdAstraIntegration;
 import nadiendev.malisisdoorsrevived.integracion.allthemodium.AllthemodiumIntegration;
 import nadiendev.malisisdoorsrevived.integracion.ars_nouveau.ArsNouveauIntegration;
 import nadiendev.malisisdoorsrevived.integracion.chipped.ChippedIntegration;
-import nadiendev.malisisdoorsrevived.integracion.create.CreateIntegration;
 import nadiendev.malisisdoorsrevived.integracion.enchanted.EnchantedIntegration;
 import nadiendev.malisisdoorsrevived.integracion.enderio.EnderIOIntegration;
 import nadiendev.malisisdoorsrevived.integracion.farmersdelight.FarmersDelightIntegration;
@@ -30,7 +28,7 @@ import nadiendev.malisisdoorsrevived.integracion.vanillabackport.VanillaBackport
 import nadiendev.malisisdoorsrevived.registry.ModBlocks;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.registries.DeferredBlock;
@@ -38,7 +36,7 @@ import net.neoforged.neoforge.registries.RegisterEvent;
 
 public class AnimatedCopies
 {
-	public record Copy(ResourceLocation id, Block original, Block animated, DoorIntegration integration)
+	public record Copy(Identifier id, Block original, Block animated, DoorIntegration integration)
 	{}
 
 	public static final List<DoorIntegration> INTEGRATIONS = List.of(	new MacawsDoorsIntegration(),
@@ -46,8 +44,6 @@ public class AnimatedCopies
 																		new MacawsFencesIntegration(),
 																		new ManyIdeasDoorsIntegration(),
 																		new VanillaBackportIntegration(),
-																		new CreateIntegration(),
-																		new AdAstraIntegration(),
 																		new TwilightForestIntegration(),
 																		new MalumIntegration(),
 																		new MekanismAdditionsIntegration(),
@@ -72,10 +68,10 @@ public class AnimatedCopies
 		if (loaded.isEmpty())
 			return;
 
-		Map<ResourceLocation, DoorIntegration> candidates = new LinkedHashMap<>();
-		for (ResourceLocation id : BuiltInRegistries.BLOCK.keySet())
+		Map<Identifier, DoorIntegration> candidates = new LinkedHashMap<>();
+		for (Identifier id : BuiltInRegistries.BLOCK.keySet())
 		{
-			Block block = BuiltInRegistries.BLOCK.get(id);
+			Block block = BuiltInRegistries.BLOCK.getValue(id);
 			for (DoorIntegration integration : loaded)
 			{
 				if (integration.animates(id, block))
@@ -87,12 +83,12 @@ public class AnimatedCopies
 		}
 
 		candidates.forEach((originalId, integration) -> {
-			Block original = BuiltInRegistries.BLOCK.get(originalId);
+			Block original = BuiltInRegistries.BLOCK.getValue(originalId);
 			if (BY_ORIGINAL.containsKey(original) || ModBlocks.hasAnimatedCopy(original))
 				return;
 
-			ResourceLocation id = MalisisDoors.id("animated/" + originalId.getNamespace() + "/" + originalId.getPath());
-			Block animated = ModBlocks.createAnimatedCopy(original);
+			Identifier id = MalisisDoors.id("animated/" + originalId.getNamespace() + "/" + originalId.getPath());
+			Block animated = ModBlocks.createAnimatedCopy(id, original);
 			event.register(Registries.BLOCK, id, () -> animated);
 			ModBlocks.addAnimatedCopy(original, DeferredBlock.createBlock(id), animated);
 

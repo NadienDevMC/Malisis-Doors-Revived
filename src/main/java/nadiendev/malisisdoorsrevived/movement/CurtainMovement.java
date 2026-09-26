@@ -1,7 +1,7 @@
 package nadiendev.malisisdoorsrevived.movement;
 
-import net.malisis.core.animation.Scale;
-import net.malisis.core.animation.Transformation;
+import nadiendev.malisiscorerevived.animation.Scale;
+import nadiendev.malisiscorerevived.animation.Transformation;
 import nadiendev.malisisdoorsrevived.blockentity.DoorBlockEntity;
 import net.minecraft.world.phys.AABB;
 

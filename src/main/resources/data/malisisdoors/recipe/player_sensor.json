@@ -6,15 +6,9 @@
     "CCC"
   ],
   "key": {
-    "A": {
-      "item": "minecraft:iron_ingot"
-    },
-    "B": {
-      "item": "minecraft:redstone"
-    },
-    "C": {
-      "tag": "c:glass_blocks/colorless"
-    }
+    "A": "minecraft:iron_ingot",
+    "B": "minecraft:redstone",
+    "C": "#c:glass_blocks/colorless"
   },
   "result": {
     "id": "malisisdoors:player_sensor",

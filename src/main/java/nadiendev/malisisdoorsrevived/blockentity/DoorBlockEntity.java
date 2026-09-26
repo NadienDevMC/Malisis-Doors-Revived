@@ -1,11 +1,14 @@
 package nadiendev.malisisdoorsrevived.blockentity;
 
+import net.minecraft.core.component.DataComponentGetter;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.level.storage.ValueInput;
 import java.util.List;
 
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
-import net.malisis.core.util.AABBUtils;
-import net.malisis.core.util.Timer;
+import nadiendev.malisiscorerevived.util.AABBUtils;
+import nadiendev.malisiscorerevived.util.Timer;
 import nadiendev.malisisdoorsrevived.block.MalisisDoorBlock;
 import nadiendev.malisisdoorsrevived.door.DoorDescriptor;
 import nadiendev.malisisdoorsrevived.door.DoorSettings;
@@ -21,7 +24,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -285,7 +287,7 @@ public class DoorBlockEntity extends BlockEntity
 		IDoorSound sound = getDescriptor().getSound();
 		SoundEvent event = sound != null ? sound.getSound(doorState) : null;
 		if (event != null)
-			level.playSound(null, worldPosition, event, SoundSource.BLOCKS, 1F, level.random.nextFloat() * 0.1F + 0.9F);
+			level.playSound(null, worldPosition, event, SoundSource.BLOCKS, 1F, level.getRandom().nextFloat() * 0.1F + 0.9F);
 	}
 
 	/**
@@ -518,39 +520,33 @@ public class DoorBlockEntity extends BlockEntity
 	}
 
 	@Override
-	protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries)
+	protected void loadAdditional(ValueInput input)
 	{
-		super.loadAdditional(tag, registries);
-		readSyncData(tag, registries);
-		doorState = DoorState.byOrdinal(tag.getInt("state"));
+		super.loadAdditional(input);
+		readSyncData(input);
+		doorState = DoorState.byOrdinal(input.getIntOr("state", 0));
 		moving = doorState.isMoving();
-		//the start of the timer is not saved : restart it (animation and auto-close delay)
 		timerNeedsStart = true;
 		invalidateShapes();
 	}
 
-	/**
-	 * Reads the data shared between the server and the client, except the door state.
-	 */
-	protected void readSyncData(CompoundTag tag, HolderLookup.Provider registries)
+	protected void readSyncData(ValueInput input)
 	{
-		centered = tag.getBoolean("centered");
-		if (tag.contains("settings"))
-			DoorSettings.CODEC.parse(NbtOps.INSTANCE, tag.get("settings")).result().ifPresent(this::setSettings);
+		centered = input.getBooleanOr("centered", false);
+		input.read("settings", DoorSettings.CODEC).ifPresent(this::setSettings);
 	}
 
 	@Override
-	protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries)
+	protected void saveAdditional(ValueOutput output)
 	{
-		super.saveAdditional(tag, registries);
-		tag.putInt("state", doorState.ordinal());
-		tag.putBoolean("centered", centered);
-		if (settings != null)
-			DoorSettings.CODEC.encodeStart(NbtOps.INSTANCE, settings).result().ifPresent(t -> tag.put("settings", t));
+		super.saveAdditional(output);
+		output.putInt("state", doorState.ordinal());
+		output.putBoolean("centered", centered);
+		output.storeNullable("settings", DoorSettings.CODEC, settings);
 	}
 
 	@Override
-	protected void applyImplicitComponents(DataComponentInput input)
+	protected void applyImplicitComponents(DataComponentGetter input)
 	{
 		super.applyImplicitComponents(input);
 		DoorSettings s = input.get(ModDataComponents.DOOR_SETTINGS.get());
@@ -566,12 +562,11 @@ public class DoorBlockEntity extends BlockEntity
 			builder.set(ModDataComponents.DOOR_SETTINGS.get(), settings);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
-	public void removeComponentsFromTag(CompoundTag tag)
+	public void removeComponentsFromTag(ValueOutput output)
 	{
-		super.removeComponentsFromTag(tag);
-		tag.remove("settings");
+		super.removeComponentsFromTag(output);
+		output.discard("settings");
 	}
 
 	@Override
@@ -587,15 +582,11 @@ public class DoorBlockEntity extends BlockEntity
 	}
 
 	@Override
-	public void onDataPacket(Connection connection, ClientboundBlockEntityDataPacket packet, HolderLookup.Provider registries)
+	public void onDataPacket(Connection connection, ValueInput input)
 	{
-		CompoundTag tag = packet.getTag();
-		if (tag.isEmpty())
-			return;
-		readSyncData(tag, registries);
+		readSyncData(input);
 		invalidateShapes();
-		//play the animation locally
-		setDoorState(DoorState.byOrdinal(tag.getInt("state")));
+		input.getInt("state").ifPresent(state -> setDoorState(DoorState.byOrdinal(state)));
 	}
 	//#end Sync
 }
