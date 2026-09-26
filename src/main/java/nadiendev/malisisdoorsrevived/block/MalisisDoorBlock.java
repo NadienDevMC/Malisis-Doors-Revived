@@ -7,7 +7,7 @@ import java.util.function.Supplier;
 
 import javax.annotation.Nullable;
 
-import net.malisis.core.util.BlockEntityUtils;
+import nadiendev.malisiscorerevived.util.BlockEntityUtils;
 import nadiendev.malisisdoorsrevived.blockentity.DoorBlockEntity;
 import nadiendev.malisisdoorsrevived.door.DoorAppearance;
 import nadiendev.malisisdoorsrevived.door.DoorDescriptor;

@@ -7,7 +7,7 @@ import javax.annotation.Nullable;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import net.malisis.core.client.render.RenderUtils;
+import nadiendev.malisiscorerevived.client.render.RenderUtils;
 import nadiendev.malisisdoorsrevived.block.MalisisFenceGateBlock;
 import nadiendev.malisisdoorsrevived.blockentity.FenceGateBlockEntity;
 import nadiendev.malisisdoorsrevived.door.DoorAppearance;

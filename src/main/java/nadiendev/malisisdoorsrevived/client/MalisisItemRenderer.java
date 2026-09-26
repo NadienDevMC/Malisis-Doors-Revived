@@ -2,8 +2,8 @@ package nadiendev.malisisdoorsrevived.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.malisis.core.client.model.ObjModelCache;
-import net.malisis.core.client.render.RenderUtils;
+import nadiendev.malisiscorerevived.client.model.ObjModelCache;
+import nadiendev.malisiscorerevived.client.render.RenderUtils;
 import nadiendev.malisisdoorsrevived.MalisisDoors;
 import nadiendev.malisisdoorsrevived.client.renderer.DoorRenderer;
 import nadiendev.malisisdoorsrevived.door.DoorMaterials;

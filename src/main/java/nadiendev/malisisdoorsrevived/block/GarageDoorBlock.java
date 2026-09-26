@@ -8,8 +8,8 @@ import net.minecraft.world.level.block.LiquidBlockContainer;
 import net.minecraft.world.level.LevelAccessor;
 import javax.annotation.Nullable;
 
-import net.malisis.core.util.AABBUtils;
-import net.malisis.core.util.BlockEntityUtils;
+import nadiendev.malisiscorerevived.util.AABBUtils;
+import nadiendev.malisiscorerevived.util.BlockEntityUtils;
 import nadiendev.malisisdoorsrevived.blockentity.DoorBlockEntity;
 import nadiendev.malisisdoorsrevived.blockentity.GarageDoorBlockEntity;
 import nadiendev.malisisdoorsrevived.door.DoorAppearance;

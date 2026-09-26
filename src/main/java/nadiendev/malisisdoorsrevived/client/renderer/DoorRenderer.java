@@ -3,10 +3,10 @@ package nadiendev.malisisdoorsrevived.client.renderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import net.malisis.core.animation.Transformable;
-import net.malisis.core.client.model.ObjModel;
-import net.malisis.core.client.model.ObjModelCache;
-import net.malisis.core.client.render.RenderUtils;
+import nadiendev.malisiscorerevived.animation.Transformable;
+import nadiendev.malisiscorerevived.client.model.ObjModel;
+import nadiendev.malisiscorerevived.client.model.ObjModelCache;
+import nadiendev.malisiscorerevived.client.render.RenderUtils;
 import nadiendev.malisisdoorsrevived.block.MalisisDoorBlock;
 import nadiendev.malisisdoorsrevived.blockentity.CustomDoorBlockEntity;
 import nadiendev.malisisdoorsrevived.blockentity.DoorBlockEntity;

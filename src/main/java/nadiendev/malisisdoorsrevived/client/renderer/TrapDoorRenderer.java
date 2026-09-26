@@ -2,8 +2,8 @@ package nadiendev.malisisdoorsrevived.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.malisis.core.animation.Transformable;
-import net.malisis.core.client.render.RenderUtils;
+import nadiendev.malisiscorerevived.animation.Transformable;
+import nadiendev.malisiscorerevived.client.render.RenderUtils;
 import nadiendev.malisisdoorsrevived.blockentity.DoorBlockEntity;
 import nadiendev.malisisdoorsrevived.door.DoorAppearance;
 import nadiendev.malisisdoorsrevived.door.IDoorBlock;

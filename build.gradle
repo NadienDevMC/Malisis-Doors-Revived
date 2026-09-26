@@ -106,7 +106,7 @@ configurations {
 }
 
 dependencies {
-    implementation "net.malisis:malisiscore:${malisiscore_version}"
+    implementation "nadiendev.malisiscorerevived:malisiscore:${malisiscore_version}"
 
     compileOnly "mezz.jei:jei-1.21.1-neoforge-api:${jei_version}"
     compileOnly "me.shedaniel:RoughlyEnoughItems-api-neoforge:${rei_version}"

@@ -7,9 +7,9 @@ import net.minecraft.world.level.block.LiquidBlockContainer;
 import net.minecraft.world.level.LevelAccessor;
 import javax.annotation.Nullable;
 
-import net.malisis.core.multiblock.IMultiBlockController;
-import net.malisis.core.multiblock.MultiBlockHelper;
-import net.malisis.core.util.BlockEntityUtils;
+import nadiendev.malisiscorerevived.multiblock.IMultiBlockController;
+import nadiendev.malisiscorerevived.multiblock.MultiBlockHelper;
+import nadiendev.malisiscorerevived.util.BlockEntityUtils;
 import nadiendev.malisisdoorsrevived.blockentity.ForcefieldBlockEntity;
 import nadiendev.malisisdoorsrevived.item.ForcefieldItem;
 import nadiendev.malisisdoorsrevived.registry.ModItems;

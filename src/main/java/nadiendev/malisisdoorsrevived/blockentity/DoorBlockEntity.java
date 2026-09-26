@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import net.malisis.core.util.AABBUtils;
-import net.malisis.core.util.Timer;
+import nadiendev.malisiscorerevived.util.AABBUtils;
+import nadiendev.malisiscorerevived.util.Timer;
 import nadiendev.malisisdoorsrevived.block.MalisisDoorBlock;
 import nadiendev.malisisdoorsrevived.door.DoorDescriptor;
 import nadiendev.malisisdoorsrevived.door.DoorSettings;

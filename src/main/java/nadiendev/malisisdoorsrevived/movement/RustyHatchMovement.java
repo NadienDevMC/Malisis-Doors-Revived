@@ -1,8 +1,8 @@
 package nadiendev.malisisdoorsrevived.movement;
 
-import net.malisis.core.animation.ParallelTransformation;
-import net.malisis.core.animation.Rotation;
-import net.malisis.core.animation.Transformation;
+import nadiendev.malisiscorerevived.animation.ParallelTransformation;
+import nadiendev.malisiscorerevived.animation.Rotation;
+import nadiendev.malisiscorerevived.animation.Transformation;
 import nadiendev.malisisdoorsrevived.blockentity.DoorBlockEntity;
 import nadiendev.malisisdoorsrevived.block.RustyHatchBlock;
 import net.minecraft.world.phys.AABB;

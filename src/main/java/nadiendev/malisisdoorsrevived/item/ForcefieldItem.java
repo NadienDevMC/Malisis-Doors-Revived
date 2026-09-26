@@ -9,8 +9,8 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import io.netty.buffer.ByteBuf;
-import net.malisis.core.multiblock.MultiBlockHelper;
-import net.malisis.core.util.AABBUtils;
+import nadiendev.malisiscorerevived.multiblock.MultiBlockHelper;
+import nadiendev.malisiscorerevived.util.AABBUtils;
 import nadiendev.malisisdoorsrevived.blockentity.ForcefieldBlockEntity;
 import nadiendev.malisisdoorsrevived.registry.ModBlocks;
 import nadiendev.malisisdoorsrevived.registry.ModDataComponents;

@@ -5,7 +5,7 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
-import net.malisis.core.util.AABBUtils;
+import nadiendev.malisiscorerevived.util.AABBUtils;
 import nadiendev.malisisdoorsrevived.block.MultiBlockDoorBlock;
 import nadiendev.malisisdoorsrevived.registry.ModBlockEntities;
 import nadiendev.malisisdoorsrevived.registry.ModDataComponents;

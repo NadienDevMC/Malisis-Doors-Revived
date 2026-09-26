@@ -10,10 +10,10 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import net.malisis.core.multiblock.IMultiBlockController;
-import net.malisis.core.multiblock.MultiBlockHelper;
-import net.malisis.core.util.BlockEntityUtils;
-import net.malisis.core.util.DirectionUtils;
+import nadiendev.malisiscorerevived.multiblock.IMultiBlockController;
+import nadiendev.malisiscorerevived.multiblock.MultiBlockHelper;
+import nadiendev.malisiscorerevived.util.BlockEntityUtils;
+import nadiendev.malisiscorerevived.util.DirectionUtils;
 import nadiendev.malisisdoorsrevived.blockentity.DoorBlockEntity;
 import nadiendev.malisisdoorsrevived.blockentity.MultiBlockDoorBlockEntity;
 import nadiendev.malisisdoorsrevived.door.DoorAppearance;
@@ -53,7 +53,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 /**
  * Base class for the doors spanning several blocks.<br>
  * The block at the origin holds the {@link MultiBlockDoorBlockEntity} and the rest of the space is filled with
- * {@link net.malisis.core.multiblock.MultiBlockPartBlock parts} delegating to this block.<br>
+ * {@link nadiendev.malisiscorerevived.multiblock.MultiBlockPartBlock parts} delegating to this block.<br>
  * Positions and bounding boxes are defined for a door facing {@link Direction#SOUTH}, relative to the origin.
  *
  * @author Ordinastie
