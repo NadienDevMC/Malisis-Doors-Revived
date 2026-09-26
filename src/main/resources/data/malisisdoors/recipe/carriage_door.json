@@ -1,0 +1,11 @@
+{
+  "type": "malisisdoors:big_door",
+  "category": "redstone",
+  "door": {
+    "item": "minecraft:oak_door"
+  },
+  "result": {
+    "id": "malisisdoors:carriage_door",
+    "count": 1
+  }
+}

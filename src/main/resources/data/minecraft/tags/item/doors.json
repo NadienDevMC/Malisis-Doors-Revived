@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "malisisdoors:wood_sliding_door",
+    "malisisdoors:iron_sliding_door",
+    "malisisdoors:jail_door",
+    "malisisdoors:laboratory_door",
+    "malisisdoors:factory_door",
+    "malisisdoors:shoji_door",
+    "malisisdoors:saloon_door",
+    "malisisdoors:custom_door",
+    "malisisdoors:vertical_hatch"
+  ]
+}

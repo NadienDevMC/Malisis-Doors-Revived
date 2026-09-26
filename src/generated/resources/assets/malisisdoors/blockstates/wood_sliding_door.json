@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "half=lower,hinge=left": {
+      "model": "malisisdoors:block/wood_sliding_door_bottom_left"
+    },
+    "half=lower,hinge=right": {
+      "model": "malisisdoors:block/wood_sliding_door_bottom_right"
+    },
+    "half=upper,hinge=left": {
+      "model": "malisisdoors:block/wood_sliding_door_top_left"
+    },
+    "half=upper,hinge=right": {
+      "model": "malisisdoors:block/wood_sliding_door_top_right"
+    }
+  }
+}

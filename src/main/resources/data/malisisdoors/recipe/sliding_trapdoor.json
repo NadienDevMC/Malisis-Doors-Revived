@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "pattern": [
+    "ABB",
+    "ABB"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:gold_ingot"
+    },
+    "B": {
+      "item": "malisisdoors:iron_sliding_door"
+    }
+  },
+  "result": {
+    "id": "malisisdoors:sliding_trapdoor",
+    "count": 1
+  }
+}

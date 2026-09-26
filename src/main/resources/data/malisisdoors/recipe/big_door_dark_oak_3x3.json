@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "pattern": [
+    "AA",
+    "AA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:dark_oak_door"
+    }
+  },
+  "result": {
+    "id": "malisisdoors:big_door_dark_oak_3x3",
+    "count": 1
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "malisisdoors:main": {
+    "entrypoints": {
+      "client": "nadiendev.malisisdoorsrevived.integracion.wthit.MalisisDoorsWthitPlugin"
+    },
+    "side": "client",
+    "required": []
+  }
+}

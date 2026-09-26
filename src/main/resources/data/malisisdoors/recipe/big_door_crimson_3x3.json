@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "pattern": [
+    "AA",
+    "AA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:crimson_door"
+    }
+  },
+  "result": {
+    "id": "malisisdoors:big_door_crimson_3x3",
+    "count": 1
+  }
+}

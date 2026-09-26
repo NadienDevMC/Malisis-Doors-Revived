@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "AA",
+    "AA",
+    "AA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:white_wool"
+    }
+  },
+  "result": {
+    "id": "malisisdoors:curtain_white",
+    "count": 3
+  }
+}

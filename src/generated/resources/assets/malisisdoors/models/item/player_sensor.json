@@ -1,0 +1,41 @@
+{
+  "parent": "minecraft:block/block",
+  "elements": [
+    {
+      "faces": {
+        "down": {
+          "texture": "#texture"
+        },
+        "east": {
+          "texture": "#texture"
+        },
+        "north": {
+          "texture": "#texture"
+        },
+        "south": {
+          "texture": "#texture"
+        },
+        "up": {
+          "texture": "#texture"
+        },
+        "west": {
+          "texture": "#texture"
+        }
+      },
+      "from": [
+        2,
+        6,
+        6
+      ],
+      "to": [
+        14,
+        10,
+        10
+      ]
+    }
+  ],
+  "textures": {
+    "particle": "malisisdoors:block/player_sensor",
+    "texture": "malisisdoors:block/player_sensor"
+  }
+}

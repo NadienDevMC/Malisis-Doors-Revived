@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "malisisdoors:item/forcefield_controller_yellow"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "malisisdoors:block/player_sensor_floor",
+      "x": 180
+    },
+    "facing=east": {
+      "model": "malisisdoors:block/player_sensor",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "malisisdoors:block/player_sensor"
+    },
+    "facing=south": {
+      "model": "malisisdoors:block/player_sensor",
+      "y": 180
+    },
+    "facing=up": {
+      "model": "malisisdoors:block/player_sensor_floor"
+    },
+    "facing=west": {
+      "model": "malisisdoors:block/player_sensor",
+      "y": 270
+    }
+  }
+}

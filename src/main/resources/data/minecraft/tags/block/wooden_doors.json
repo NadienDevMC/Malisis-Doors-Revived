@@ -1,0 +1,20 @@
+{
+  "replace": false,
+  "values": [
+    "malisisdoors:animated_oak_door",
+    "malisisdoors:animated_spruce_door",
+    "malisisdoors:animated_birch_door",
+    "malisisdoors:animated_jungle_door",
+    "malisisdoors:animated_acacia_door",
+    "malisisdoors:animated_dark_oak_door",
+    "malisisdoors:animated_mangrove_door",
+    "malisisdoors:animated_cherry_door",
+    "malisisdoors:animated_bamboo_door",
+    "malisisdoors:animated_crimson_door",
+    "malisisdoors:animated_warped_door",
+    "malisisdoors:wood_sliding_door",
+    "malisisdoors:shoji_door",
+    "malisisdoors:saloon_door",
+    "malisisdoors:custom_door"
+  ]
+}

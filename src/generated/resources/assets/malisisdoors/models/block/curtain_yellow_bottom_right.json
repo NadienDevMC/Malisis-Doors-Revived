@@ -1,0 +1,8 @@
+{
+  "parent": "malisisdoors:block/template_door_bottom_right",
+  "textures": {
+    "bottom": "malisisdoors:block/curtains/curtain_yellow_lower",
+    "side": "malisisdoors:block/curtains/curtain_yellow_side",
+    "top": "malisisdoors:block/curtains/curtain_yellow_upper"
+  }
+}

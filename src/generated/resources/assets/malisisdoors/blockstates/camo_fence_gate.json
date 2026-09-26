@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "in_wall=false": {
+      "model": "malisisdoors:block/camo_fence_gate"
+    },
+    "in_wall=true": {
+      "model": "malisisdoors:block/camo_fence_gate_wall"
+    }
+  }
+}

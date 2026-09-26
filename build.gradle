@@ -1,0 +1,199 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'net.neoforged.moddev' version '2.0.147'
+    id 'idea'
+}
+
+
+version = "${minecraft_version}-${mod_version}-${tag_lanzador}"
+group = "${mod_group_id}"
+
+base {
+    archivesName = "${mod_named}"
+}
+
+tasks.named('wrapper', Wrapper).configure {
+    distributionType = Wrapper.DistributionType.BIN
+}
+
+// Mojang ships Java 21 to end users in 1.21.1, so mods should target Java 21.
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+java {
+    withSourcesJar()
+}
+
+neoForge {
+    version = project.neo_version
+
+    runs {
+        client {
+            client()
+            if (project.findProperty('dev_world')) {
+                programArguments.addAll '--quickPlaySingleplayer', project.property('dev_world')
+            }
+        }
+        server {
+            server()
+            programArgument '--nogui'
+        }
+        data {
+            data()
+            programArguments.addAll '--mod', mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+        }
+        configureEach {
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+            logLevel = org.slf4j.event.Level.DEBUG
+        }
+    }
+
+    mods {
+        "${mod_id}" {
+            sourceSet(sourceSets.main)
+        }
+    }
+}
+
+sourceSets.main.resources {
+    srcDir 'src/generated/resources'
+    exclude '.cache/'
+}
+
+repositories {
+    mavenLocal()
+    // Local repository produced by `./gradlew publish` in MalisisCore Revived
+    maven {
+        name = 'MalisisCore local'
+        url = file("${malisiscore_path}/repo")
+    }
+    // Fallback: jar dropped in the libs folder
+    flatDir {
+        dirs 'libs'
+    }
+    maven {
+        url = 'https://maven.blamejared.com'
+        content { includeGroup 'mezz.jei' }
+    }
+    maven {
+        url = 'https://maven.shedaniel.me'
+        content {
+            includeGroup 'me.shedaniel'
+            includeGroup 'me.shedaniel.cloth'
+            includeGroup 'dev.architectury'
+        }
+    }
+    maven {
+        url = 'https://maven.terraformersmc.com/releases'
+        content { includeGroup 'dev.emi' }
+    }
+    maven {
+        url = 'https://maven.bai.lol'
+        content {
+            includeGroup 'mcp.mobius.waila'
+            includeGroup 'lol.bai'
+        }
+    }
+    maven {
+        url = 'https://api.modrinth.com/maven'
+        content { includeGroup 'maven.modrinth' }
+    }
+}
+
+configurations {
+    localRuntime
+    runtimeClasspath.extendsFrom localRuntime
+}
+
+dependencies {
+    implementation "net.malisis:malisiscore:${malisiscore_version}"
+
+    compileOnly "mezz.jei:jei-1.21.1-neoforge-api:${jei_version}"
+    compileOnly "me.shedaniel:RoughlyEnoughItems-api-neoforge:${rei_version}"
+    compileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-neoforge:${rei_version}"
+    compileOnly "dev.emi:emi-neoforge:${emi_version}:api"
+    compileOnly "maven.modrinth:jade:${jade_version}"
+    compileOnly "mcp.mobius.waila:wthit-api:${wthit_version}"
+
+    def recipeViewers = dev_recipe_viewers.split(',')*.trim()
+    if ('jei' in recipeViewers) {
+        localRuntime("mezz.jei:jei-1.21.1-neoforge:${jei_version}") { transitive = false }
+    }
+    if ('rei' in recipeViewers) {
+        localRuntime "me.shedaniel:RoughlyEnoughItems-neoforge:${rei_version}"
+    }
+    if ('emi' in recipeViewers) {
+        localRuntime "dev.emi:emi-neoforge:${emi_version}"
+    }
+
+    def tooltipMods = dev_tooltip_mods.split(',')*.trim()
+    if ('jade' in tooltipMods) {
+        localRuntime "maven.modrinth:jade:${jade_version}"
+    }
+    if ('wthit' in tooltipMods) {
+        localRuntime "mcp.mobius.waila:wthit:${wthit_version}"
+        localRuntime "lol.bai:badpackets:${badpackets_version}"
+    }
+
+    if (dev_door_mods.toBoolean()) {
+        localRuntime "maven.modrinth:macaws-doors:${mcwdoors_version}"
+        localRuntime "maven.modrinth:macaws-trapdoors:${mcwtrpdoors_version}"
+        localRuntime "maven.modrinth:macaws-fences-and-walls:${mcwfences_version}"
+        localRuntime "maven.modrinth:dramatic-doors:${dramaticdoors_version}"
+        localRuntime "maven.modrinth:manyideas-doors:${manyideas_doors_version}"
+        localRuntime "maven.modrinth:manyideas-core:${manyideas_core_version}"
+        localRuntime "maven.modrinth:recipes-library:${recipes_library_version}"
+        localRuntime "maven.modrinth:vanillabackport:${vanillabackport_version}"
+        localRuntime "maven.modrinth:platform:${platform_version}"
+        localRuntime "maven.modrinth:create:${create_version}"
+        localRuntime "maven.modrinth:ad-astra:${ad_astra_version}"
+        localRuntime "maven.modrinth:resourceful-lib:${resourceful_lib_version}"
+        localRuntime "maven.modrinth:resourceful-config:${resourceful_config_version}"
+        localRuntime "maven.modrinth:common-storage-lib:${common_storage_lib_version}"
+    }
+}
+
+tasks.named('processResources', ProcessResources) {
+    var replaceProperties = [
+            minecraft_version        : minecraft_version,
+            minecraft_version_range  : minecraft_version_range,
+            neo_version              : neo_version,
+            loader_version_range     : loader_version_range,
+            mod_id                   : mod_id,
+            mod_name                 : mod_name,
+            mod_license              : mod_license,
+            mod_version              : mod_version,
+            mod_authors              : mod_authors,
+            mod_description          : mod_description,
+            malisiscore_version_range: malisiscore_version_range,
+    ]
+    inputs.properties replaceProperties
+    filesMatching('META-INF/neoforge.mods.toml') {
+        expand replaceProperties
+    }
+}
+
+publishing {
+    publications {
+        register('mavenJava', MavenPublication) {
+            artifactId = mod_id
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            url "file://${project.projectDir}/repo"
+        }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
+}

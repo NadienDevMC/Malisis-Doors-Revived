@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "pattern": [
+    "AA",
+    "AA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:acacia_door"
+    }
+  },
+  "result": {
+    "id": "malisisdoors:big_door_acacia_3x3",
+    "count": 1
+  }
+}

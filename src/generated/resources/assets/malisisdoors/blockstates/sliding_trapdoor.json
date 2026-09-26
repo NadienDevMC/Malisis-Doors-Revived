@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=bottom": {
+      "model": "malisisdoors:block/sliding_trapdoor_bottom"
+    },
+    "half=top": {
+      "model": "malisisdoors:block/sliding_trapdoor_top"
+    }
+  }
+}

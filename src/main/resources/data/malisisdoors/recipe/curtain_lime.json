@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "AA",
+    "AA",
+    "AA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:lime_wool"
+    }
+  },
+  "result": {
+    "id": "malisisdoors:curtain_lime",
+    "count": 3
+  }
+}

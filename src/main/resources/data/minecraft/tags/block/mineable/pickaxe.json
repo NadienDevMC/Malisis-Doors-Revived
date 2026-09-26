@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values": [
+    "malisisdoors:animated_iron_door",
+    "malisisdoors:iron_sliding_door",
+    "malisisdoors:jail_door",
+    "malisisdoors:laboratory_door",
+    "malisisdoors:factory_door",
+    "malisisdoors:vertical_hatch",
+    "malisisdoors:animated_iron_trapdoor",
+    "malisisdoors:sliding_trapdoor",
+    "malisisdoors:big_door_iron_3x3",
+    "malisisdoors:big_door_rusty_3x3",
+    "malisisdoors:rusty_hatch",
+    "malisisdoors:rusty_ladder",
+    "malisisdoors:hitech_door",
+    "malisisdoors:door_factory"
+  ]
+}

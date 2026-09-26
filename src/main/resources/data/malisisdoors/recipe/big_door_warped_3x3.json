@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "pattern": [
+    "AA",
+    "AA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:warped_door"
+    }
+  },
+  "result": {
+    "id": "malisisdoors:big_door_warped_3x3",
+    "count": 1
+  }
+}

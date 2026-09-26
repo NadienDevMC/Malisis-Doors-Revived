@@ -1,0 +1,20 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+    }
+}
+
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
+}
+
+rootProject.name = 'malisisdoors'
+
+// MalisisDoors depends on MalisisCore Revived.
+// If a checkout of MalisisCore Revived is found next to this project (or at the path given by the malisiscore_path property),
+// it is built together with this project. Otherwise the dependency is resolved from the maven repositories declared in build.gradle.
+def corePath = startParameter.projectProperties.get('malisiscore_path') ?: providers.gradleProperty('malisiscore_path').getOrElse('../Malisis-Core-Revived')
+def coreDir = file(corePath)
+if (new File(coreDir, 'settings.gradle').exists()) {
+    includeBuild(coreDir)
+}

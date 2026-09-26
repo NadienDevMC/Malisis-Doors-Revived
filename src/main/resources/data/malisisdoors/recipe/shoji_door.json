@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "pattern": [
+    "AB",
+    "AB",
+    "AB"
+  ],
+  "key": {
+    "A": {
+      "tag": "minecraft:planks"
+    },
+    "B": {
+      "item": "minecraft:paper"
+    }
+  },
+  "result": {
+    "id": "malisisdoors:shoji_door",
+    "count": 3
+  }
+}

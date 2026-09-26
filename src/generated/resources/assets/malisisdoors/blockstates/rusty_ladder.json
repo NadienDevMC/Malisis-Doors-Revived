@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "malisisdoors:block/rusty_ladder",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "malisisdoors:block/rusty_ladder"
+    },
+    "facing=south": {
+      "model": "malisisdoors:block/rusty_ladder",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "malisisdoors:block/rusty_ladder",
+      "y": 270
+    }
+  }
+}

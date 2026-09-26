@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+    "malisisdoors:animated_oak_trapdoor",
+    "malisisdoors:animated_spruce_trapdoor",
+    "malisisdoors:animated_birch_trapdoor",
+    "malisisdoors:animated_jungle_trapdoor",
+    "malisisdoors:animated_acacia_trapdoor",
+    "malisisdoors:animated_dark_oak_trapdoor",
+    "malisisdoors:animated_mangrove_trapdoor",
+    "malisisdoors:animated_cherry_trapdoor",
+    "malisisdoors:animated_bamboo_trapdoor",
+    "malisisdoors:animated_crimson_trapdoor",
+    "malisisdoors:animated_warped_trapdoor",
+    "malisisdoors:animated_iron_trapdoor",
+    "malisisdoors:sliding_trapdoor"
+  ]
+}

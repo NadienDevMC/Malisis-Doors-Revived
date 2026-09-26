@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "malisisdoors:block/door_factory",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "malisisdoors:block/door_factory"
+    },
+    "facing=south": {
+      "model": "malisisdoors:block/door_factory",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "malisisdoors:block/door_factory",
+      "y": 270
+    }
+  }
+}

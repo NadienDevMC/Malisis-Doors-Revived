@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "half=lower,hinge=left": {
+      "model": "malisisdoors:block/curtain_cyan_bottom_left"
+    },
+    "half=lower,hinge=right": {
+      "model": "malisisdoors:block/curtain_cyan_bottom_right"
+    },
+    "half=upper,hinge=left": {
+      "model": "malisisdoors:block/curtain_cyan_top_left"
+    },
+    "half=upper,hinge=right": {
+      "model": "malisisdoors:block/curtain_cyan_top_right"
+    }
+  }
+}

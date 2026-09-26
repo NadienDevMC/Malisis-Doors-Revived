@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "pattern": [
+    "A ",
+    "AB",
+    "A "
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:iron_ingot"
+    },
+    "B": {
+      "item": "malisisdoors:rusty_handle"
+    }
+  },
+  "result": {
+    "id": "malisisdoors:rusty_hatch",
+    "count": 1
+  }
+}
